@@ -75,7 +75,7 @@ export class MyBookingsComponent {
     const reservaEditar: Booking|undefined = this.bookings.find(x=>x._id === bookingId)
     if(reservaEditar){
       Swal.fire({
-      title: `Tu reserva del ${reservaEditar.vehicle.brand} ${reservaEditar.vehicle.model}`,
+      /*title: `Tu reserva del ${reservaEditar.vehicle.brand} ${reservaEditar.vehicle.model}`,*/
       html: `<div>
         <div>
           <label class="form-label">Fecha inicio</label>

@@ -20,18 +20,18 @@
     @for(booking of bookings; track booking){
     <tr>
       <td>
-        <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada-->
+        <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada
         <button [disabled]="!(booking.startDate | canCancel)" (click)="eliminar(booking._id)" class="btn btn-danger btn-sm me-1">
           <i class="fa fa-trash"></i>
         </button>
-        <button [disabled]="!(booking.startDate | canCancel)" (click)="editar(booking._id)" class="btn btn-primary btn-sm">
+        <button [disabled]="!(booking.date | canCancel)" (click)="editar(booking._id)" class="btn btn-primary btn-sm">
           <i class="fa fa-pencil"></i>
-        </button>
+        </button>-->
       </td>
-      <td>{{ booking.startDate | formatDate }}</td>
-      <td>{{ booking.endDate | formatDate }}</td>
-      <td>{{ booking.vehicle.brand }}</td>
-      <td>{{ booking.vehicle.model }}</td>
+      <td>{{ booking.date | formatDate }}</td>
+      
+      <td>{{ booking.class.name }}</td>
+      <td>{{ booking.class.time }}</td>
       <td>{{ booking.price | divisa }}</td>
       <td>{{ booking.discount }}</td>
     </tr>
