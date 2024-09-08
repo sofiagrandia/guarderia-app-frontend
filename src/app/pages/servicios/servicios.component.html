@@ -1,0 +1,57 @@
+<h1>Nuestros servicios</h1>
+<ul class="row list-unstyled shadow-none">
+  @for(servicio of servicios ; track servicio){
+  <li class="col-md-6 my-1">
+    <div class="card bg-dark text-white no-border" data-bs-toggle="modal"
+    [attr.data-bs-target]="'#modal' + servicio._id">
+      <img [src]="servicio.image" height="500" class="card-img hover-overlay" alt="..." />
+      <div class="card-img-overlay ">
+        <h5 class="card-title dark-text">{{ servicio.titulo }}</h5>
+        <p class="card-text">A partir de {{ servicio.precio | divisa }}</p>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      [attr.id]="'modal' + servicio._id"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title dark-text" id="modalTitle">
+              {{ servicio.titulo }}
+            </h5>
+          </div>
+          <div class="modal-body" [innerHTML]="servicio.description"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-primary">¡Ver centros!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---
+                <div class="card h-100" >
+                    <img [src]="servicio.image" height="180"  class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{servicio.titulo}}</h5>
+                      <p class="card-text">{{servicio.description}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">A partir de {{servicio.precio | divisa}}</small>
+                    </div>
+                  </div>-->
+  </li>
+  }
+</ul>
