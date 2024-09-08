@@ -1,11 +1,8 @@
 export interface Centro {
     _id: string
     name: string
-    facility: string
+    telefono: string
     description: string
     image: string
-    availableSpaces: number
-    disponibilidad: number
-    time: string
-    duration: number
+    plazasDisponibles: number
 }

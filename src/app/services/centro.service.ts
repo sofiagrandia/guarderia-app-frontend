@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class CentroService {
 
 
-  url : string = "http://localhost:3001/api/centros"
+  url : string = "http://localhost:3002/api/centros"
   constructor(private http: HttpClient) { }
 
   getAll(){

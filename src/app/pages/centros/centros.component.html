@@ -7,9 +7,9 @@
                   <div class="card-body">
                     <h5 class="card-title">{{centro.name}}</h5>
                     <p class="card-text">{{centro.description}}</p>
-                    <p class="card-text">{{centro.time}} </p>
+                    <p class="card-text">Plazas dispobles{{centro.plazasDisponibles}} </p>
                     
-                    @if(centro.availableSpaces > 0){
+                    @if(centro.plazasDisponibles > 0){
                         <!--[routerLink]="'/rent/'+vehicle._id" -->
                       <a  class="btn btn-outline-primary">Ir a este centro!</a>
                     }
@@ -18,7 +18,7 @@
                     }
                   </div>
                   <div class="card-footer">
-                      <small class="text-muted">Disponibilidad {{centro.disponibilidad}}</small>
+                      <small class="text-muted">Telefono {{centro.telefono}}</small>
                   </div>
                 </div>
           </li>
