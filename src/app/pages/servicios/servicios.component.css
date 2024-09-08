@@ -1,0 +1,21 @@
+@enable-rounded    false;
+
+.no-border {
+    border: 0;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+
+main{
+    border: 0;
+    border-radius: 0;
+    border-color: white;
+}
+
+.card:hover {
+    opacity: 0.3;
+    
+  }
+
+.dark-text{
+    color: rgb(68, 59, 166);
+}

@@ -8,8 +8,10 @@ import { MeComponent } from './pages/me/me.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { MyBookingsComponent } from './pages/me/my-bookings/my-bookings.component';
 import { MyInfoComponent } from './pages/me/my-info/my-info.component';
-import { FacilitiesComponent } from './pages/facilities/facilities/facilities.component';
+
 import { CentrosComponent } from './pages/centros/centros.component';
+import { ServiciosComponent } from './pages/servicios/servicios.component';
+
 
 export const routes: Routes = [
     {
@@ -21,8 +23,8 @@ export const routes: Routes = [
         component:CentrosComponent
     },
     {
-        path:"facilities",
-        component:FacilitiesComponent
+        path:"servicios",
+        component:ServiciosComponent
     },
     {
         path: "login",
