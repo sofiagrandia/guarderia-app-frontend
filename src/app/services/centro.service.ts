@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ClassService {
+export class CentroService {
 
 
-  url : string = "http://localhost:3001/api/classes"
+  url : string = "http://localhost:3001/api/centros"
   constructor(private http: HttpClient) { }
 
   getAll(){

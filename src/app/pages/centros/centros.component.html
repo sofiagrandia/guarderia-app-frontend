@@ -1,0 +1,28 @@
+<h1>Nuestros centros</h1>
+  <ul class="row list-unstyled">
+      @for(centro of centros ; track centro){
+          <li class="col-md-6 col-sm-12 col-lg-3 my-1">
+              <div class="card h-100" >
+                  <img [src]="centro.image" height="160"  class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{centro.name}}</h5>
+                    <p class="card-text">{{centro.description}}</p>
+                    <p class="card-text">{{centro.time}} </p>
+                    
+                    @if(centro.availableSpaces > 0){
+                        <!--[routerLink]="'/rent/'+vehicle._id" -->
+                      <a  class="btn btn-outline-primary">Ir a este centro!</a>
+                    }
+                    @else {
+                      <span class="sin-stock">Sin sitio</span>
+                    }
+                  </div>
+                  <div class="card-footer">
+                      <small class="text-muted">Disponibilidad {{centro.disponibilidad}}</small>
+                  </div>
+                </div>
+          </li>
+      }
+    
+  </ul>
+  
