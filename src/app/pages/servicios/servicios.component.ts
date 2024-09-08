@@ -7,20 +7,38 @@ import { DivisaPipe } from '../../pipes/divisa.pipe';
   selector: 'app-servicios',
   standalone: true,
   imports: [DivisaPipe],
+  styles: [
+    `
+      main {
+        border: 0;
+        border-radius: 0;
+        border-color: white;
+      }
+    `,
+  ],
   templateUrl: './servicios.component.html',
-  styleUrl: './servicios.component.css'
+  styleUrl: './servicios.component.css',
 })
 export class ServiciosComponent {
+  servicios: Servicio[] = [];
 
-  servicios: Servicio[] = []
-
-  constructor(private servicioService: ServicioService){
+  constructor(private servicioService: ServicioService) {
     servicioService.getAll().subscribe({
-      next: (response)=>{
-        this.servicios = response as Servicio[]
+      next: (response) => {
+        this.servicios = response as Servicio[];
+
+        // Modify the attribute for each servicio in the array
+        this.servicios = this.servicios.map((servicio) => {
+          // Modify any attribute, for example setting a new precio
+          servicio.description = this.modifyText(servicio.description);
+          return servicio; // return the modified servicio
+        });
       },
-      error:() => {}
-    })
+      error: () => {},
+    });
   }
 
+  modifyText(text: string): string {
+    return text.replace(/\\n/g, '<br><br>');
+  }
 }
