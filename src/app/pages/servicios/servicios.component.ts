@@ -7,15 +7,6 @@ import { DivisaPipe } from '../../pipes/divisa.pipe';
   selector: 'app-servicios',
   standalone: true,
   imports: [DivisaPipe],
-  styles: [
-    `
-      main {
-        border: 0;
-        border-radius: 0;
-        border-color: white;
-      }
-    `,
-  ],
   templateUrl: './servicios.component.html',
   styleUrl: './servicios.component.css',
 })
