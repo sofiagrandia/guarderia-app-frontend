@@ -1,0 +1,20 @@
+<h1>Nuestros servicios</h1>
+<ul class="row list-unstyled">
+    @for(servicio of servicios ; track servicio){
+        <li class="col-md-6 col-sm-12 col-lg-3 my-1">
+            <div class="card h-100" >
+                <img [src]="servicio.image" height="180"  class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{servicio.titulo}}</h5>
+                  <p class="card-text">{{servicio.description}}</p>
+                  
+                 
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">A partir de {{servicio.precio | divisa}}</small>
+                </div>
+              </div>
+        </li>
+    }
+  
+</ul>

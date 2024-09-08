@@ -9,7 +9,7 @@ import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { MyBookingsComponent } from './pages/me/my-bookings/my-bookings.component';
 import { MyInfoComponent } from './pages/me/my-info/my-info.component';
 import { ClassesComponent } from './pages/classes/classes/classes.component';
-import { FacilitiesComponent } from './pages/facilities/facilities/facilities.component';
+import { ServiciosComponent } from './pages/servicios/servicios.component';
 
 export const routes: Routes = [
     {
@@ -21,8 +21,8 @@ export const routes: Routes = [
         component:ClassesComponent
     },
     {
-        path:"facilities",
-        component:FacilitiesComponent
+        path:"servicios",
+        component:ServiciosComponent
     },
     {
         path: "login",
