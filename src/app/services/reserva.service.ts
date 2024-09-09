@@ -1,3 +1,4 @@
+import { Servicio } from './../interfaces/servicio';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
@@ -22,7 +23,8 @@ export class ReservaService {
     sDate: string,
     eDate: string,
     price: number,
-    discount: number
+    discount: number,
+    services: Servicio[]
   ) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.user?.token}`,
@@ -34,6 +36,7 @@ export class ReservaService {
       endDate: eDate,
       price: price,
       discount: discount,
+      services: services
     }, {headers});
   }
 
