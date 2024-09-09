@@ -10,6 +10,7 @@ import { MyBookingsComponent } from './pages/me/my-bookings/my-bookings.componen
 import { MyInfoComponent } from './pages/me/my-info/my-info.component';
 import { ClassesComponent } from './pages/classes/classes/classes.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { ReservaComponent } from './pages/reserva/reserva.component';
 
 export const routes: Routes = [
     {
@@ -35,8 +36,8 @@ export const routes: Routes = [
         canActivate: [isNotLoggedInGuard]
     },
     {
-        path: "rent/:id",
-        component: RentComponent
+        path: "reserva/:id",
+        component: ReservaComponent
     },
     {
         path: "me",
