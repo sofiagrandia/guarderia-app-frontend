@@ -1,9 +1,10 @@
+import { CentroService } from './../../services/centro.service';
 import { ReservaService } from './../../services/reserva.service';
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Centro } from '../../interfaces/centro';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DivisaPipe } from '../../pipes/divisa.pipe';
 import { AuthService } from '../../services/auth.service';
 import { Servicio } from '../../interfaces/servicio';
@@ -20,13 +21,41 @@ export class ReservaComponent {
   form!: FormGroup;
   mostrarCodigoPromocional: boolean = false;
   selectedServices: Servicio[] = [];
+  parametro: string | null = null;
 
 
   constructor(
     private reservaService: ReservaService,
     private router: Router,
-    public authService: AuthService
-  ) {}
+    private builder: FormBuilder,
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private centroService: CentroService
+
+  ) {
+
+
+    this.form = builder.group({
+      "fechIn": new FormControl([Validators.required]),
+      "fechaOut": new FormControl([Validators.required]),
+      "codigoPromocional": new FormControl( []),
+    });
+   
+
+    route.paramMap.subscribe((params) => {
+      this.parametro = params.get('id');
+    });
+
+    if (this.parametro !== null) {
+      centroService.getById(this.parametro).subscribe({
+        next: (response) => {
+          this.centro = response as Centro;
+        },
+        error: () => {},
+      });
+    }
+  }
+  
 
   public get numDias(): number {
     const fechaini = new Date(this.form.value.fechaInicio);
