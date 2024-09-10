@@ -65,11 +65,12 @@ export class ReservaComponent {
     });
 
     if (this.parametro !== null) {
+      console.log("centro: ",centroService.getById(this.parametro));
       centroService.getById(this.parametro).subscribe({
         next: (response) => {
           console.log(response);
           this.centro = response as Centro;
-          console.log(this.centro.servicios);
+          console.log("centro id",this.centro._id);
           if (this.centro.servicios && this.centro.servicios.length > 0) {
             const servicioIds = this.centro.servicios; // Ensure _id exists
             console.log('Service IDs:', servicioIds); // Log the IDs to ensure they're valid
@@ -145,6 +146,8 @@ export class ReservaComponent {
 
   enviar() {
     
+console.log("Centro enviado", this.centro?._id)
+console.log("servicios enviado",this.selectedServices)
 
     this.reservaService
       .saveReserva(
@@ -169,10 +172,10 @@ export class ReservaComponent {
             },
           });
         },
-        error: () => {
+        error: (err) => {
           Swal.fire({
             title: 'Oops',
-            text: 'Ha ocurrido un error con tu reserva',
+            text: `Ha ocurrido un error con tu reserva ${err.error.message || 'Unknown error'}`,
             icon: 'error',
             timer: 2000,
             showConfirmButton: false,

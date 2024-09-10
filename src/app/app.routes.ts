@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
-import { RentComponent } from './pages/rent/rent.component';
 import { isNotLoggedInGuard } from './guards/is-not-logged-in.guard';
 import { MeComponent } from './pages/me/me.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';

@@ -8,11 +8,9 @@
   <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">Fecha inicio</th>
-      <th scope="col">Fecha fin</th>
-      <th scope="col">Marca</th>
-      <th scope="col">Modelo</th>
-      <th scope="col">Precio</th>
+      <th scope="col">Fecha In</th>
+      <th scope="col">Fecha out</th>
+      <th scope="col">Precio total</th>
       <th scope="col">Descuento %</th>
     </tr>
   </thead>
@@ -28,11 +26,14 @@
           <i class="fa fa-pencil"></i>
         </button>-->
       </td>
-      <td>{{ booking.date | formatDate }}</td>
+      <td>{{ booking.dateIn | formatDate }}</td>
       
-      <td>{{ booking.centro.name }}</td>
+      <td>{{ booking.dateOut |formatDate }}</td>
       <td>{{ booking.price | divisa }}</td>
       <td>{{ booking.discount }}</td>
+     
+      
+     
     </tr>
     }
   </tbody>

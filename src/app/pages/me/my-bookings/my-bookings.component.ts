@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Booking } from '../../../interfaces/booking';
-import { BookingService } from '../../../services/booking.service';
 import { FormatDatePipe } from '../../../pipes/format-date.pipe';
 import { DivisaPipe } from '../../../pipes/divisa.pipe';
 import { AuthService } from '../../../services/auth.service';
 import Swal from "sweetalert2"
 import { CanCancelPipe } from '../../../pipes/can-cancel.pipe';
+import { ReservaService } from '../../../services/reserva.service';
 
 
 @Component({
@@ -18,8 +18,8 @@ import { CanCancelPipe } from '../../../pipes/can-cancel.pipe';
 export class MyBookingsComponent {
   bookings: Booking[] = [];
 
-  constructor(private bookingService: BookingService, private authService: AuthService){
-    this.bookingService.getBookingsByUserId(authService.user!.id).subscribe({
+  constructor(private reservaService: ReservaService, private authService: AuthService){
+    this.reservaService.getReservaByUserId(authService.user!.id).subscribe({
       next: (response)=>{
         this.bookings = response as Booking[]
       },
@@ -43,7 +43,7 @@ export class MyBookingsComponent {
       
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bookingService.deleteBoooking(bookingId).subscribe({
+        this.reservaService.deleteReserva(bookingId).subscribe({
           next: ()=>{
             Swal.fire({
               title: "¡Reserva eliminada!",

@@ -17,11 +17,12 @@ export class CentrosComponent {
   constructor(private centroService: CentroService){
     centroService.getAll().subscribe({
       next: (response)=>{
-
         this.centros = response as Centro[]
       },
       error:() => {}
     })
+
+    
   }
 
 }
