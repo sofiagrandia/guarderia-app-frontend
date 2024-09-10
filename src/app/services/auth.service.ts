@@ -21,7 +21,7 @@ export class AuthService {
     }
   }
 
-  signup(name: string, email: string, pwd: string, pets: Mascota[]){
+  signup(name: string, email: string, pwd: string, pets?: Mascota[]){
     return this.http.post(
       //Estas URIs y atributos están que en el backend
       `${this.url}/register`,

@@ -60,25 +60,26 @@ export class SignupComponent {
       raza: mascota.raza,
       fechaNacimiento: mascota.fechaNacimiento
     }));
+    console.log(mascotasArray);
     /*this.mascota.name = this.form.value.petName;
     this.mascota.type = this.form.value.petType;
     this.mascota.raza = this.form.value.petBreed;
     this.mascota.fechaNacimiento = this.form.value.petDob;*/
 
     this.mascotas.push(this.mascota);
-    this.mascotaService.saveMascota(
+    console.log(this.mascotas);
+    /*this.mascotaService.saveMascota(
       this.form.value.petName,
       this.form.value.petType,
       this.form.value.petBreed,
       this.form.value.petDob
     ).subscribe({
-      next: () => {
+      next: () => {*/
         this.authService
       .signup(
         this.form.value.name,
         this.form.value.email,
         this.form.value.pwd,
-        mascotasArray
       )
       .subscribe({
         next: () => {
@@ -89,12 +90,12 @@ export class SignupComponent {
           // Handle the error (e.g., show an error message to the user)
         }
       });
-      },
+     /* },
       error: (err) => {
         console.error('Error saving mascota:', err);
         // Handle the error (e.g., show an error message to the user)
       }
-    });
+    });*/
     
   }
 }

@@ -2,7 +2,7 @@
   <i class="fa-solid fa-paw"></i> Sign Up
 </h1>
 <form [formGroup]="form" (ngSubmit)="signup()" action="" class="row">
-  <div class="col-md-6 my-1">
+  <div >
     <div class="mb-3">
       <label class="form-label poppins-regular subtitle-color" for=""
         >Name</label
@@ -44,6 +44,7 @@
       </div>
     </div>
   </div>
+  <!--
   <div class="col-md-6 my-1">
     <div class="mb-3">
       <label class="form-label poppins-regular subtitle-color" for=""
@@ -69,8 +70,9 @@
       >
       <input formControlName="petDob" class="form-control" type="date" />
     </div>
+    <button class="btn btn-outline-info"><i class="fa-solid fa-paw"></i> Añadir mascota</button>
   </div>
-
+-->
   <button class="btn btn-info"><i class="fa fa-key"></i> Sign up</button>
 </form>
 
