@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -11,7 +11,20 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class NavbarComponent {
 
-  constructor(public authService: AuthService){
+  currentRoute: string = '';
+
+
+  constructor(public authService: AuthService, private router: Router){
   
   }
+  ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;  // Get the current URL
+    });
+  }
+
+  isActive(route: string): boolean {
+    return this.currentRoute === route;  // Check if the route matches the current URL
+  }
+ 
 }
