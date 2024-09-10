@@ -9,5 +9,5 @@ export interface Centro {
     image: string
     plazasDisponibles: number
     precioBase: number
-    servicios: [Servicio]
+    servicios: [string]
 }

@@ -85,15 +85,15 @@
               <h4>Total</h4>
             </div>
             <div class="col-md-6 text-end">
-              <h4>{{ (centro.precioBase * numDias)|divisa}}</h4>
+              <h4>{{ (centro.precioBase * numDias + sumaServicios)|divisa}}</h4>
             </div>
           </div>
         </div>
-        @for(servicio of centro.servicios ; track servicio){
+        @for(servicio of servicios ; track servicio){
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="servicio-{{servicio._id}}" 
             (change)="onServiceToggle(servicio, $event)">
-            <label class="form-check-label" for="flexSwitchCheckDefault">{{servicio}} | {{servicio.precio}}</label>
+            <label class="form-check-label" for="flexSwitchCheckDefault">{{servicio.titulo}} | {{servicio.precio | divisa}}</label>
           </div>
         }
 
