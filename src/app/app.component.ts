@@ -11,5 +11,5 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend_gym_class';
+  title = 'frontend_guarderia_app';
 }
