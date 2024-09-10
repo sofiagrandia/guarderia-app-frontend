@@ -1,37 +1,39 @@
-<nav class="navbar navbar-expand-md  bg-body-tertiary">
+<nav class="navbar navbar-dark navbar-custom-bg navbar-expand-md ">
     <div class="container-fluid">
 
-      <h2 class="navbar-brand" href="#">Guardería de Mascotas</h2>
-
+        <a class="navbar-brand" href="#">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/White_paw_print.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+          Guardería de Mascotas
+        </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
+            <a [class.active]="isActive('/')" class="nav-link"  aria-current="page" routerLink="/">Home</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" routerLink="/centros">Centros</a>
+            <a [class.active]="isActive('/centros')" class="nav-link"  routerLink="/centros">Centros</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" routerLink="/servicios">Servicios</a>
+            <a [class.active]="isActive('/servicios')"  class="nav-link" routerLink="/servicios">Servicios</a>
           </li>
           <!--Para que se pinten los botones de login/signup solo cuando no haya nadie loggeado-->
          
           @if(authService.user === null){
             <li class="nav-item">
-              <a class="nav-link" routerLink="/login">Login</a>
+              <a [class.active]="isActive('/login')"  class="nav-link" routerLink="/login">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/signup">Signup</a>
+              <a [class.active]="isActive('/signup')"  class="nav-link" routerLink="/signup">Signup</a>
             </li>
           }
           @else {
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a [class.active]="isActive('/me')"  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Área privada
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

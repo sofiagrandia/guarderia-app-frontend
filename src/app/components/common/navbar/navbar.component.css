@@ -1,0 +1,15 @@
+.navbar-custom-bg{
+    background-color: #6ebdca;
+}
+
+.nav-link:active {
+    color: #6ebdca;
+    background-color: white;
+    border-radius: 20px;
+   }
+   .nav-link.active {
+    color: #6ebdca;
+    background-color: white;
+    border-radius: 20px;
+   }
+ 
