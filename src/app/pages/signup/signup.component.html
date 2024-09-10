@@ -1,37 +1,77 @@
-<h1><i class="fa fa-user"></i> Sign up</h1>
-<form [formGroup]="form" (ngSubmit)="signup()" action="">
-  <div class="mb-3">
-    <label class="form-label" for="">Name</label>
-    <input formControlName="name" class="form-control" type="text" />
-  </div>
+<h1 class="poppins-semibold title-color">
+  <i class="fa-solid fa-paw"></i> Sign Up
+</h1>
+<form [formGroup]="form" (ngSubmit)="signup()" action="" class="row">
+  <div class="col-md-6 my-1">
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Name</label
+      >
+      <input formControlName="name" class="form-control" type="text" />
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label" for="">Email</label>
-    <input formControlName="email" class="form-control" type="text" />
-  </div>
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Email</label
+      >
+      <input formControlName="email" class="form-control" type="text" />
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label" for="">Password</label>
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Password</label
+      >
 
-    <div class="input-group mb-3">
-      <!--formcontrolName pones como en el TS-->
-        <input formControlName="pwd" [type]="passwordType" class="form-control">
-        <button (click)="passwordType = (passwordType==='text')? 'password':'text'" class="btn btn-outline-secondary" type="button" >
+      <div class="input-group mb-3">
+        <!--formcontrolName pones como en el TS-->
+        <input
+          formControlName="pwd"
+          [type]="passwordType"
+          class="form-control"
+        />
+        <button
+          (click)="passwordType = passwordType === 'text' ? 'password' : 'text'"
+          class="btn btn-outline-secondary"
+          type="button"
+        >
           <!--Para cambiar de ver a no ver la contraseña-->
-            @if(passwordType === 'text'){
-                <i class="fa fa-eye-slash"></i>
-            }
-            @else {
-                <i class="fa fa-eye"></i>
-            }
-            
+          @if(passwordType === 'text'){
+          <i class="fa fa-eye-slash"></i>
+          } @else {
+          <i class="fa fa-eye"></i>
+          }
         </button>
       </div>
+    </div>
+  </div>
+  <div class="col-md-6 my-1">
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Nombre mascota</label
+      >
+      <input formControlName="petName" class="form-control" type="text" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Tipo de animal</label
+      >
+      <input formControlName="petType" class="form-control" type="text" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Raza</label
+      >
+      <input formControlName="petBreed" class="form-control" type="text" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label poppins-regular subtitle-color" for=""
+        >Fecha nacimiento</label
+      >
+      <input formControlName="petDob" class="form-control" type="date" />
+    </div>
   </div>
 
-  <button class="btn btn-primary"><i class="fa fa-key"></i> Sign up</button>
+  <button class="btn btn-info"><i class="fa fa-key"></i> Sign up</button>
 </form>
 
-<p>
-  ¿Ya tienes cuenta? <a routerLink="/login"> Inicia sesión aquí</a> 
-</p>
+<p>¿Ya tienes cuenta? <a routerLink="/login"> Inicia sesión aquí</a></p>

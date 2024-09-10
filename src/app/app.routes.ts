@@ -12,6 +12,7 @@ import { MyInfoComponent } from './pages/me/my-info/my-info.component';
 import { CentrosComponent } from './pages/centros/centros.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { ReservaComponent } from './pages/reserva/reserva.component';
+import { MascotasComponent } from './pages/mascotas/mascotas.component';
 
 
 export const routes: Routes = [
@@ -31,6 +32,10 @@ export const routes: Routes = [
         path: "login",
         component: LoginComponent,
         canActivate: [isNotLoggedInGuard]
+    },
+    {
+        path: "mascotas",
+        component: MascotasComponent
     },
     {
         path: "signup",
