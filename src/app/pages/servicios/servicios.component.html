@@ -1,4 +1,4 @@
-<h1>Nuestros servicios</h1>
+<h1 class="poppins-semibold title-color text-center">Nuestros Servicios</h1>
 <ul class="row list-unstyled shadow-none">
   @for(servicio of servicios ; track servicio){
   <li class="col-md-6 my-1">
@@ -6,8 +6,8 @@
     [attr.data-bs-target]="'#modal' + servicio._id">
       <img [src]="servicio.image" height="500" class="card-img hover-overlay" alt="..." />
       <div class="card-img-overlay ">
-        <h5 class="card-title dark-text">{{ servicio.titulo }}</h5>
-        <p class="card-text">A partir de {{ servicio.precio | divisa }}</p>
+        <h5 class="card-title dark-text lora-regular">{{ servicio.titulo }}</h5>
+        <p class="card-text poppins-light">A partir de {{ servicio.precio | divisa }}</p>
       </div>
     </div>
 
@@ -22,20 +22,20 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title dark-text" id="modalTitle">
+            <h5 class="modal-title dark-text lora-regular" id="modalTitle">
               {{ servicio.titulo }}
             </h5>
           </div>
-          <div class="modal-body" [innerHTML]="servicio.description"></div>
+          <div class="modal-body poppins-light" [innerHTML]="servicio.description"></div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-secondary"
               data-bs-dismiss="modal"
             >
               Cerrar
             </button>
-            <button type="button" class="btn btn-primary">¡Ver centros!</button>
+            <button [routerLink]="'/centros'" data-bs-dismiss="modal" type="button" class="btn btn-info button-light-text-color">¡Ver centros!</button>
           </div>
         </div>
       </div>

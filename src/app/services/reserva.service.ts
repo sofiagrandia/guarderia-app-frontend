@@ -19,9 +19,9 @@ export class ReservaService {
   }
 
   saveReserva(
-    vehicleId: string,
-    sDate: string,
-    eDate: string,
+    centroId: string,
+    dateIn: string,
+    dateOut: string,
     price: number,
     discount: number,
     services: Servicio[]
@@ -29,11 +29,11 @@ export class ReservaService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
-
+console.log("centro recibido", centroId);
     return this.http.post(this.url, {
-      vehicle: vehicleId,
-      startDate: sDate,
-      endDate: eDate,
+      centro: centroId,
+      dateIn: dateIn,
+      dateOut: dateOut,
       price: price,
       discount: discount,
       services: services

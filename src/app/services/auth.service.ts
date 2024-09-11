@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../interfaces/user';
+import { Mascota } from '../interfaces/mascota';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthService {
   //para los cookies
   user: User|null = null
   //es hasta users porque es la parte común para login y sign up
-  url: string = "http://localhost:3000/api/users"
+  url: string = "http://localhost:3002/api/users"
 
 
   constructor(private http : HttpClient, private cookieService: CookieService) {
@@ -20,14 +21,15 @@ export class AuthService {
     }
   }
 
-  signup(name: string, email: string, pwd: string){
+  signup(name: string, email: string, pwd: string, pets?: Mascota[]){
     return this.http.post(
       //Estas URIs y atributos están que en el backend
       `${this.url}/register`,
       {
         name: name,
         email: email,
-        password: pwd
+        password: pwd,
+        mascotas: pets
       }
     )
   }
