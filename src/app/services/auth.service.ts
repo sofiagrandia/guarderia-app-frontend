@@ -10,6 +10,7 @@ import { Mascota } from '../interfaces/mascota';
 export class AuthService {
   //para los cookies
   user: User|null = null
+  id: string|string=''
   //es hasta users porque es la parte común para login y sign up
   url: string = "http://localhost:3002/api/users"
 
@@ -47,6 +48,17 @@ export class AuthService {
     this.user = user
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
+  }
+
+  updateUser(updatedUser: User, id: string) {
+    // Update user locally
+    this.user = updatedUser;
+    this.cookieService.set('user', JSON.stringify(updatedUser));
+    this.id=id;
+    // Update user on server
+    // Replace with your API endpoint
+    console.log("UpdatedUser", updatedUser);
+    return this.http.patch<User>(`${this.url}/${this.id}`, updatedUser);
   }
 
   deleteUser(){
