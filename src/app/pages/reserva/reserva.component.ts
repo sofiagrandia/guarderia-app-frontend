@@ -38,9 +38,10 @@ export class ReservaComponent {
   parametro: string | null = null;
   servicios: Servicio[] = [];
   sumaServicios: number = 0;
-  mascotas: Mascota[] =[];
+  mascotas: Mascota[] = [];
   selectedMascotas: Mascota[] = [];
   numMascotas: number = 0;
+  userId: string | string = '';
 
   constructor(
     private reservaService: ReservaService,
@@ -59,6 +60,7 @@ export class ReservaComponent {
       endDate: null,
       promoCode: null,
     };
+    this.loadUser();
     if (cookieService.check('booking-form-data')) {
       data = JSON.parse(cookieService.get('booking-form-data'));
     }
@@ -74,17 +76,18 @@ export class ReservaComponent {
     });
 
     if (this.parametro !== null) {
-      console.log("centro: ",centroService.getById(this.parametro));
+      console.log('centro: ', centroService.getById(this.parametro));
       centroService.getById(this.parametro).subscribe({
         next: (response) => {
           console.log(response);
           this.centro = response as Centro;
           this.loadMascotas();
-          console.log("centro id",this.centro._id);
+          console.log('centro id', this.centro._id);
           if (this.centro.servicios && this.centro.servicios.length > 0) {
             const servicioIds = this.centro.servicios; // Ensure _id exists
             console.log('Service IDs:', servicioIds); // Log the IDs to ensure they're valid
             this.loadServicios(servicioIds);
+            
           } else {
             console.error('No valid servicios found in the centro object.');
           }
@@ -97,7 +100,7 @@ export class ReservaComponent {
   public get numDias(): number {
     const fechaInStr = this.form.value.fechaIn;
     const fechaOutStr = this.form.value.fechaOut;
-
+    this.loadUser();
     if (!fechaInStr || !fechaOutStr) {
       console.error('Fecha Entrada or Fecha Salida is empty');
       return 0;
@@ -116,20 +119,26 @@ export class ReservaComponent {
     return dias < 0 ? 0 : dias;
   }
 
+  loadUser() {
+    if(this.authService.user!=null){
+      this.userId = this.authService.user!.id;
+    }
+    
+  }
+
   onServiceToggle(servicio: Servicio, event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
       // Add the service to the list if it is checked
       this.selectedServices.push(servicio);
       console.log(this.selectedServices);
-      this.sumaServicios += servicio.precio;  
+      this.sumaServicios += servicio.precio;
     } else {
       // Remove the service from the list if it is unchecked
       this.selectedServices = this.selectedServices.filter(
         (s) => s._id !== servicio._id
-        
       );
-      this.sumaServicios -= servicio.precio; 
+      this.sumaServicios -= servicio.precio;
     }
   }
 
@@ -138,51 +147,48 @@ export class ReservaComponent {
     if (isChecked) {
       // Add the service to the list if it is checked
       this.selectedMascotas.push(mascota);
-      this.numMascotas=+ this.selectedMascotas.length;
-      console.log("numMascotas", this.numMascotas); 
+      this.numMascotas = +this.selectedMascotas.length;
+      console.log('numMascotas', this.numMascotas);
     } else {
       // Remove the service from the list if it is unchecked
       this.selectedMascotas = this.selectedMascotas.filter(
         (m) => m._id !== mascota._id
-        
       );
-      this.numMascotas --; 
+      this.numMascotas--;
     }
   }
-
 
   // Function to load mascotas of the logged-in user
   loadMascotas() {
     // Assuming `authService.getUser()` returns the logged-in user's ID
-    const userId = this.authService.user!.id;
-    console.log("UserId en reserva", userId)
+    //const userId = this.authService.user!.id;
+    console.log('UserId en reserva', this.userId);
 
-    if (!userId) {
+    if (!this.userId) {
       console.error('User is not logged in or user ID is not available');
       return;
     }
 
     // Fetch the user by ID and get their mascotas
-    this.userService.getById(userId).subscribe({
+    this.userService.getById(this.userId).subscribe({
       next: (response: any) => {
         const user = response as User; // Assuming response matches the User interface
         console.log('User Mascotas:', user.mascotas);
-        console.log("mascota id", user.mascotas)
+        console.log('mascota id', user.mascotas);
         if (user.mascotas && user.mascotas.length > 0) {
-          for(const m of user.mascotas){
-            console.log("mascota id", m)
+          for (const m of user.mascotas) {
+            console.log('mascota id', m);
             this.mascotaService.getById(m).subscribe({
               next: (response) => {
                 const mascota = response as Mascota;
-    
+
                 this.mascotas.push(mascota); // Add each valid servicio object to the array
-               
               },
               error: (err) =>
                 console.error(`Error fetching mascota with ID: ${m}`, err),
             });
           }
-          
+
           console.log('Mascotas loaded:', this.mascotas);
         } else {
           this.mascotas = [];
@@ -192,10 +198,9 @@ export class ReservaComponent {
       error: (err) => {
         console.log('Mascotas:', this.mascotas);
         console.error('Error fetching user mascotas', err);
-      }
+      },
     });
   }
-
 
   loadServicios(servicioIds: string[]) {
     servicioIds.forEach((id) => {
@@ -207,7 +212,6 @@ export class ReservaComponent {
             const servicio = response as Servicio;
 
             this.servicios.push(servicio); // Add each valid servicio object to the array
-           
           },
           error: (err) =>
             console.error(`Error fetching servicio with ID: ${id}`, err),
@@ -218,19 +222,17 @@ export class ReservaComponent {
     });
   }
 
-
-
   enviar() {
-    
-console.log("Centro enviado", this.centro?._id)
-console.log("servicios enviado",this.selectedServices)
+    console.log('Centro enviado', this.centro?._id);
+    console.log('servicios enviado', this.selectedServices);
 
     this.reservaService
       .saveReserva(
         this.centro!._id,
         this.form.value.fechaIn,
         this.form.value.fechaOut,
-        (this.numDias * this.centro!.precioBase + this.sumaServicios)*this.selectedMascotas.length,
+        (this.numDias * this.centro!.precioBase + this.sumaServicios) *
+          this.selectedMascotas.length,
         0,
         this.selectedServices
       )
@@ -251,7 +253,9 @@ console.log("servicios enviado",this.selectedServices)
         error: (err) => {
           Swal.fire({
             title: 'Oops',
-            text: `Ha ocurrido un error con tu reserva ${err.error.message || 'Unknown error'}`,
+            text: `Ha ocurrido un error con tu reserva ${
+              err.error.message || 'Unknown error'
+            }`,
             icon: 'error',
             timer: 2000,
             showConfirmButton: false,

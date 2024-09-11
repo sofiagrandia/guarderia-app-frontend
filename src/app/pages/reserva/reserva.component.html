@@ -90,16 +90,17 @@
         </div>
         <hr />
         <div>
-          <span>Elija la mascota para la estancia</span>
+          <span>Elija la mascota para la estancia:</span>
         </div>
 
-        @if(mascotas.length === 0){
+        @if(mascotas.length === 0 && authService.user){
         <div class="alert alert-info">
           <i class="fa fa-circle-exclamation me-3"></i>
           <a routerLink="/me/my-info">Agregue una mascota</a> para continuar con
           la reserva
         </div>
-        } @for(mascota of mascotas ; track mascota){
+        } 
+        @for(mascota of mascotas ; track mascota){
         <div class="form-check">
           <input
             class="form-check-input"
