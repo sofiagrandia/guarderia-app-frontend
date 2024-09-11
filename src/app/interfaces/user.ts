@@ -5,5 +5,5 @@ export interface User {
     email?: string
     token: string
     id: string
-    mascotas?: Mascota[]
+    mascotas?: string[]
 }
