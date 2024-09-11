@@ -1,3 +1,4 @@
+import { User } from './../../interfaces/user';
 import { CentroService } from './../../services/centro.service';
 import { ReservaService } from './../../services/reserva.service';
 import { Component } from '@angular/core';
@@ -17,6 +18,7 @@ import { Servicio } from '../../interfaces/servicio';
 import { ServicioService } from '../../services/servicio.service';
 import { BookingFormData } from '../../interfaces/booking-form-data';
 import { CookieService } from 'ngx-cookie-service';
+import { Mascota } from '../../interfaces/mascota';
 
 @Component({
   selector: 'app-reserva',
@@ -34,6 +36,7 @@ export class ReservaComponent {
   parametro: string | null = null;
   servicios: Servicio[] = [];
   sumaServicios: number = 0;
+  mascotas: Mascota[] =[];
 
   constructor(
     private reservaService: ReservaService,
@@ -144,6 +147,37 @@ export class ReservaComponent {
     });
   }
 
+  /*loadMascotas(servicioIds: string[]) {
+    this.authService.user!.id.subscribe({
+      next: (response)=>{
+        const user = response as User;
+      },
+      error: ()=>{
+
+      }
+    })
+
+
+    servicioIds.forEach((id) => {
+      console.log(id);
+      if (id) {
+        // Check if the id is not undefined
+        this.servicioService.getById(id).subscribe({
+          next: (response) => {
+            const servicio = response as Servicio;
+
+            this.servicios.push(servicio); // Add each valid servicio object to the array
+           
+          },
+          error: (err) =>
+            console.error(`Error fetching servicio with ID: ${id}`, err),
+        });
+      } else {
+        console.error('Encountered undefined service ID.');
+      }
+    });
+  }
+*/
   enviar() {
     
 console.log("Centro enviado", this.centro?._id)
