@@ -48,6 +48,7 @@ export class AuthService {
     this.user = user
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
+
   }
 
   updateUser(updatedUser: User, id: string) {
