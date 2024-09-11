@@ -155,6 +155,7 @@ export class ReservaComponent {
   loadMascotas() {
     // Assuming `authService.getUser()` returns the logged-in user's ID
     const userId = this.authService.user!.id;
+    console.log("UserId en reserva", userId)
 
     if (!userId) {
       console.error('User is not logged in or user ID is not available');
