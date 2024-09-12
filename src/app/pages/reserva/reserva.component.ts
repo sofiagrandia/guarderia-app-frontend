@@ -82,6 +82,7 @@ export class ReservaComponent {
           console.log(response);
           this.centro = response as Centro;
           this.loadMascotas();
+          this.loadUser();
           console.log('centro id', this.centro._id);
           if (this.centro.servicios && this.centro.servicios.length > 0) {
             const servicioIds = this.centro.servicios; // Ensure _id exists
@@ -100,7 +101,6 @@ export class ReservaComponent {
   public get numDias(): number {
     const fechaInStr = this.form.value.fechaIn;
     const fechaOutStr = this.form.value.fechaOut;
-    this.loadUser();
     if (!fechaInStr || !fechaOutStr) {
       console.error('Fecha Entrada or Fecha Salida is empty');
       return 0;
@@ -120,8 +120,15 @@ export class ReservaComponent {
   }
 
   loadUser() {
-    if(this.authService.user!=null){
-      this.userId = this.authService.user!.id;
+    if (!this.authService.user && this.cookieService.check('user')) {
+      this.authService.user = JSON.parse(this.cookieService.get('user'));
+    }
+    
+    if (this.authService.user) {
+      this.userId = this.authService.id;
+      console.error('this.USerId en load', this.authService.id);
+    } else {
+      console.error('User is not logged in');
     }
     
   }
@@ -160,6 +167,7 @@ export class ReservaComponent {
 
   // Function to load mascotas of the logged-in user
   loadMascotas() {
+    this.loadUser();
     // Assuming `authService.getUser()` returns the logged-in user's ID
     //const userId = this.authService.user!.id;
     console.log('UserId en reserva', this.userId);

@@ -15,7 +15,7 @@ export class NavbarComponent {
 
 
   constructor(public authService: AuthService, private router: Router){
-  
+
   }
   ngOnInit(): void {
     this.router.events.subscribe(() => {
