@@ -46,6 +46,8 @@ export class AuthService {
 
   saveUser(user: User){
     this.user = user
+    this.id = user.id
+  console.log("Save user", user.id)
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
 
