@@ -12,4 +12,6 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
 })
 export class AppComponent {
   title = 'frontend_guarderia_app';
+
+  
 }

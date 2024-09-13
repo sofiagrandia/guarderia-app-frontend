@@ -1,1 +1,38 @@
 <p>my-info works!</p>
+<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Añadir mascota</button>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar mascota</h5>
+       
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="addPet()" >
+          <div class="mb-3">
+            <label for="petName" class="col-form-label">Nombre de mascota:</label>
+            <input type="text" class="form-control" id="petName" formControlName="petName">
+          </div>
+          <div class="mb-3">
+            <label for="petType" class="col-form-label">Tipo de animal:</label>
+            <input type="text" class="form-control" id="petType" formControlName="petType">
+          </div>
+          <div class="mb-3">
+            <label for="petBreed" class="col-form-label">Raza:</label>
+            <input type="text" class="form-control" id="petBreed" formControlName="petBreed">
+          </div>
+          <div class="mb-3">
+            <label for="petDob" class="col-form-label">Fecha de nacimiento:</label>
+            <input type="date" class="form-control" id="petDob" formControlName="petDob">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-info" data-bs-dismiss="modal">Agregar</button>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>

@@ -71,6 +71,14 @@
             <span>x {{ numDias }}</span>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Número de mascotas</span>
+          </div>
+          <div class="col-md-6 text-end">
+            <span>x {{ numMascotas }}</span>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-6">
@@ -81,6 +89,28 @@
           </div>
         </div>
         <hr />
+        <div>
+          <span>Elija la mascota para la estancia:</span>
+        </div>
+
+        @if(mascotas.length === 0 && authService.user){
+        <div class="alert alert-info">
+          <i class="fa fa-circle-exclamation me-3"></i>
+          <a routerLink="/me/my-info">Agregue una mascota</a> para continuar con
+          la reserva
+        </div>
+        } 
+        @for(mascota of mascotas ; track mascota){
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="mascota-{{ mascota._id }}"
+            (change)="onMascotaToggle(mascota, $event)"
+          />
+          <label class="form-check-label">{{ mascota.name }} </label>
+        </div>
+        }
 
         <div>
           <span>Elija los servicios que quiera añadir:</span>
@@ -105,13 +135,21 @@
             <h4>Total</h4>
           </div>
           <div class="col-md-6 text-end">
-            <h4>{{ centro.precioBase * numDias + sumaServicios | divisa }}</h4>
+            <h4>
+              {{
+                (centro.precioBase * numDias + sumaServicios) * numMascotas
+                  | divisa
+              }}
+            </h4>
           </div>
         </div>
       </div>
 
       @if(authService.user){
-      <button class="btn btn-success">Reservar</button>
+
+      <button class="btn btn-success" [disabled]="mascotas.length === 0 || numMascotas ===0">
+        Reservar
+      </button>
       }@else {
       <div class="alert alert-danger">
         <i class="fa fa-circle-exclamation me-3"></i>
