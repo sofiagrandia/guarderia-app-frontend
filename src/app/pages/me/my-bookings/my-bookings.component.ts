@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Component } from '@angular/core';
 import { Booking } from '../../../interfaces/booking';
 import { FormatDatePipe } from '../../../pipes/format-date.pipe';
@@ -17,9 +18,13 @@ import { ReservaService } from '../../../services/reserva.service';
 })
 export class MyBookingsComponent {
   bookings: Booking[] = [];
+  userId: string | string = '';
 
-  constructor(private reservaService: ReservaService, private authService: AuthService){
-    this.reservaService.getReservaByUserId(authService.user!.id).subscribe({
+  constructor(private reservaService: ReservaService, private authService: AuthService, private cookieService: CookieService){
+    this.loadUser()
+    console.log("this.userId",this.userId);
+    
+    this.reservaService.getReservaByUserId(this.userId).subscribe({
       next: (response)=>{
         this.bookings = response as Booking[]
       },
@@ -29,6 +34,25 @@ export class MyBookingsComponent {
     })
   }
 
+  loadUser() {
+    if (!this.authService.user && this.cookieService.check('user')) {
+      this.authService.user = JSON.parse(this.cookieService.get('user'));
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
+    }
+    if (this.cookieService.check('user')) {
+      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      this.authService.user = JSON.parse(this.cookieService.get('user'));
+
+      if(JSON.parse(this.cookieService.get('user')).id){
+        this.userId = JSON.parse(this.cookieService.get('user')).id;
+      }else{
+        this.userId = JSON.parse(this.cookieService.get('user'))._id;
+      }
+      //console.log(this.authService.user?.token);
+    }else {
+      console.error('User is not logged in');
+    }
+  }
   eliminar(bookingId: string){
     console.log(bookingId);
     Swal.fire({
@@ -43,6 +67,7 @@ export class MyBookingsComponent {
       
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log("dentro del then",bookingId);
         this.reservaService.deleteReserva(bookingId).subscribe({
           next: ()=>{
             Swal.fire({
