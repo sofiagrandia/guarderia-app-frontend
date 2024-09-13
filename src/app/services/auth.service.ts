@@ -11,6 +11,8 @@ export class AuthService {
   //para los cookies
   user: User|null = null
   id: string|string=''
+  token: string | null = null;
+
   //es hasta users porque es la parte común para login y sign up
   url: string = "http://localhost:3002/api/users"
 
@@ -19,6 +21,9 @@ export class AuthService {
     // rescatar usuario de las cookies, porque user es volátil y las cookies persistentes
     if(cookieService.check('user')){
       this.user = JSON.parse(cookieService.get('user')) 
+    }
+    if (this.cookieService.check('token')) {
+      this.token = this.cookieService.get('token');
     }
   }
 

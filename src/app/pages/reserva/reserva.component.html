@@ -24,7 +24,12 @@
         <label class="form-label" for="">Fecha Salida</label>
         <input formControlName="fechaOut" class="form-control" type="date" />
       </div>
-
+      @if(dateError===true){
+      <div class="alert alert-info">
+        <i class="fa fa-circle-exclamation me-3"></i>
+        Asegúrese que la fecha está completa y es correcta.
+      </div>
+      }
       <div>
         <p>
           ¿Tienes un código promocional?
@@ -46,11 +51,19 @@
         <label class="form-label" for="">Código promocional</label>
         <div class="input-group mb-3">
           <input formControlName="codigoPromocional" class="form-control" />
-          <button class="btn btn-outline-secondary" type="button">
-            Validar
-            <i class="fa fa-shopping-cart"></i>
-          </button>
         </div>
+        @if(codigoPromocional!=''){
+        @if(promoCodesList.includes(codigoPromocional)){
+        <div class="alert alert-success">
+          <i class="fa fa-circle-exclamation me-3"></i>
+          Código válido
+        </div>
+        }@else{
+        <div class="alert alert-dark">
+          <i class="fa fa-circle-exclamation me-3"></i>
+          Código no válido
+        </div>
+        }}
       </div>
       }
 
@@ -85,7 +98,11 @@
             <span>Descuento</span>
           </div>
           <div class="col-md-6 text-end">
+            @if(promoCode!=0){
+            <span>{{ 100 - promoCode * 100 }}%</span>
+            }@else{
             <span>{{ 0 }}%</span>
+            }
           </div>
         </div>
         <hr />
@@ -99,8 +116,7 @@
           <a routerLink="/me/my-info">Agregue una mascota</a> para continuar con
           la reserva
         </div>
-        } 
-        @for(mascota of mascotas ; track mascota){
+        } @for(mascota of mascotas ; track mascota){
         <div class="form-check">
           <input
             class="form-check-input"
@@ -137,8 +153,9 @@
           <div class="col-md-6 text-end">
             <h4>
               {{
-                (centro.precioBase * numDias + sumaServicios) * numMascotas
-                  | divisa
+                (centro.precioBase * numDias + sumaServicios) *
+                  numMascotas *
+                  promoCode | divisa
               }}
             </h4>
           </div>
@@ -147,7 +164,12 @@
 
       @if(authService.user){
 
-      <button class="btn btn-success" [disabled]="mascotas.length === 0 || numMascotas ===0">
+      <button
+        class="btn btn-success"
+        [disabled]="
+          mascotas.length === 0 || numMascotas === 0 || dateError === true
+        "
+      >
         Reservar
       </button>
       }@else {
