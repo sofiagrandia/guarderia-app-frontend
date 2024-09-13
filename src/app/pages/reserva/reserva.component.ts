@@ -173,6 +173,7 @@ export class ReservaComponent {
     console.log('UserId en reserva', this.userId);
 
     if (!this.userId) {
+      this.authService.deleteUser();
       console.error('User is not logged in or user ID is not available');
       return;
     }
@@ -233,6 +234,9 @@ export class ReservaComponent {
   enviar() {
     console.log('Centro enviado', this.centro?._id);
     console.log('servicios enviado', this.selectedServices);
+    const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
+  
+  const headers = { 'Authorization': `Bearer ${token}` };
 
     this.reservaService
       .saveReserva(
