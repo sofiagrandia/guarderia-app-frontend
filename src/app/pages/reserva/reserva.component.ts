@@ -64,6 +64,10 @@ export class ReservaComponent {
     if (cookieService.check('booking-form-data')) {
       data = JSON.parse(cookieService.get('booking-form-data'));
     }
+    if (this.cookieService.check('user')) {
+      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
+    }
 
     this.form = builder.group({
       fechaIn: new FormControl(data.startDate, [Validators.required]),
@@ -122,14 +126,27 @@ export class ReservaComponent {
   loadUser() {
     if (!this.authService.user && this.cookieService.check('user')) {
       this.authService.user = JSON.parse(this.cookieService.get('user'));
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
+    }
+    if (this.cookieService.check('user')) {
+      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      this.authService.user = JSON.parse(this.cookieService.get('user'));
+      if(JSON.parse(this.cookieService.get('user')).id){
+        this.userId = JSON.parse(this.cookieService.get('user')).id;
+      }else{
+        this.userId = JSON.parse(this.cookieService.get('user'))._id;
+      }
+      
+    }else {
+      console.error('User is not logged in');
     }
     
-    if (this.authService.user) {
+    /*if (this.authService.user) {
       this.userId = this.authService.id;
       console.error('this.USerId en load', this.authService.id);
     } else {
       console.error('User is not logged in');
-    }
+    }*/
     
   }
 
