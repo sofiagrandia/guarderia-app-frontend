@@ -43,9 +43,11 @@ export class ServiciosAdminComponent {
   });
   this.loadUser();
   }
-  public onClick(elementId: string): void { this.viewportScroller.scrollToAnchor(elementId); } 
 
   
+  public onClick(elementId: string): void { this.viewportScroller.scrollToAnchor(elementId); } 
+
+
   loadUser(){
     this.userId = this.authService.user!.id;
  }

@@ -7,7 +7,7 @@ export interface Centro {
     direccion: string
     description: string
     image: string
-    plazasDisponibles: number
     precioBase: number
+    plazasDisponibles: number    
     servicios: [string]
 }

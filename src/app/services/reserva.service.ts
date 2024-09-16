@@ -17,6 +17,12 @@ export class ReservaService {
     });
     return this.http.get(`${this.url}/user/${userId}`, { headers });
   }
+  getAll() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.user?.token}`,
+    });
+    return this.http.get(this.url, { headers });
+  }
 
   saveReserva(
     centroId: string,

@@ -14,9 +14,10 @@ import { ReservaComponent } from './pages/reserva/reserva.component';
 import { MascotasComponent } from './pages/mascotas/mascotas.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { UsersComponent } from './pages/admin/users/users.component';
-import { ReservasComponent } from './pages/admin/reservas/reservas.component';
+import { ReservasAdminComponent } from './pages/admin/reservasAdmin/reservasAdmin.component';
 import { ServiciosAdminComponent} from './pages/admin/serviciosAdmin/serviciosAdmin.component';
 import { SafeKeyedRead } from '@angular/compiler';
+import { CentrosAdminComponent } from './pages/admin/centrosAdmin/centrosAdmin.component';
 
 
 export const routes: Routes = [
@@ -76,7 +77,7 @@ export const routes: Routes = [
             },
             {
                 path: "centros",
-                component: CentrosComponent
+                component: CentrosAdminComponent
             },
             {
                 path: "servicios",
@@ -84,7 +85,7 @@ export const routes: Routes = [
             },
             {
                 path: "reservas",
-                component: ReservasComponent
+                component: ReservasAdminComponent
             }
         ]
     }

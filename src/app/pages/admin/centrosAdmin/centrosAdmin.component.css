@@ -12,11 +12,12 @@
 }
 
 .img-resize {
-  height: 500px;
-  width: 100%;
-  overflow: hidden;
-  object-fit: cover;
-}
+    height: 500px;
+    width: 100%;
+    overflow: hidden;
+    object-fit: cover;
+  }
+  
 .navbar-custom-bg {
   background-color: #6ebdca;
 }

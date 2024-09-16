@@ -4,9 +4,10 @@
   @for(servicio of servicios ; track servicio){
   <li class="col-md-6 my-1">
     <div class="card">
-      <img [src]="servicio.image" class="card-img-top" alt="servicio image" />
+      <img [src]="servicio.image" class="card-img-top img-resize" alt="servicio image" />
       <div class="card-body">
         <h5 class="card-title poppins-light">{{ servicio.titulo }}</h5>
+        <h6 class="card-title poppins-thin-italic"> ID: {{ servicio._id }}</h6>
         <p class="card-text poppins-light">{{ servicio.description }}</p>
         <p class="card-footer poppins-light">Precio: {{ servicio.precio | divisa}}</p>
         <a (click)="deleteServicio(servicio._id)" class="btn btn-danger"> <i class="fa fa-trash"></i> Borrar</a>
@@ -36,7 +37,7 @@
       <input type="text" class="form-control" id="servicioImg" formControlName="servicioImg">
     </div>
     <div class="modal-footer">
-      <button class="btn btn-info" data-bs-dismiss="modal">Agregar</button>
+      <button class="btn btn-info" >Agregar</button>
     </div>
   </form>
 </div>
