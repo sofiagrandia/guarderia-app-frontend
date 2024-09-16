@@ -25,6 +25,7 @@ export class AuthService {
     if (this.cookieService.check('token')) {
       this.token = this.cookieService.get('token');
     }
+    console.log("user en auth", this.user)
   }
 
   signup(name: string, email: string, pwd: string, pets?: Mascota[]){

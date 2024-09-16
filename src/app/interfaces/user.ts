@@ -6,4 +6,5 @@ export interface User {
     token: string
     id: string
     mascotas?: string[]
+    role?:string
 }

@@ -13,6 +13,7 @@ export class UserService {
   }
 
   getById(id: string){
+    console.log(id)
     return this.http.get(`${this.url}/${id}`)
   }
 }

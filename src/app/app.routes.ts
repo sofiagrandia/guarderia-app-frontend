@@ -12,6 +12,11 @@ import { CentrosComponent } from './pages/centros/centros.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { ReservaComponent } from './pages/reserva/reserva.component';
 import { MascotasComponent } from './pages/mascotas/mascotas.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { UsersComponent } from './pages/admin/users/users.component';
+import { ReservasComponent } from './pages/admin/reservas/reservas.component';
+import { ServiciosAdminComponent} from './pages/admin/serviciosAdmin/serviciosAdmin.component';
+import { SafeKeyedRead } from '@angular/compiler';
 
 
 export const routes: Routes = [
@@ -57,6 +62,29 @@ export const routes: Routes = [
             {
                 path: "my-info",
                 component: MyInfoComponent
+            }
+        ]
+    },
+    {
+        path: "admin",
+        component: AdminComponent,
+        canActivate: [isLoggedInGuard],
+        children:[
+            {
+                path: "users",
+                component: UsersComponent
+            },
+            {
+                path: "centros",
+                component: CentrosComponent
+            },
+            {
+                path: "servicios",
+                component: ServiciosAdminComponent
+            },
+            {
+                path: "reservas",
+                component: ReservasComponent
             }
         ]
     }
