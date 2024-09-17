@@ -13,7 +13,7 @@ import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { ReservaComponent } from './pages/reserva/reserva.component';
 import { MascotasComponent } from './pages/mascotas/mascotas.component';
 import { AdminComponent } from './pages/admin/admin.component';
-import { UsersComponent } from './pages/admin/users/users.component';
+import { UsersAdminComponent } from './pages/admin/usersAdmin/usersAdmin.component';
 import { ReservasAdminComponent } from './pages/admin/reservasAdmin/reservasAdmin.component';
 import { ServiciosAdminComponent} from './pages/admin/serviciosAdmin/serviciosAdmin.component';
 import { SafeKeyedRead } from '@angular/compiler';
@@ -73,7 +73,7 @@ export const routes: Routes = [
         children:[
             {
                 path: "users",
-                component: UsersComponent
+                component: UsersAdminComponent
             },
             {
                 path: "centros",

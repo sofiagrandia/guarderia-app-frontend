@@ -1,4 +1,12 @@
 <h2 class="poppins-semibold subtitle-color">Reservas</h2>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">
+    <i class="fa fa-filter"></i>
+  </span>
+  <input [(ngModel)]="filtro" type="text" class="form-control" placeholder="Filtrar">
+</div>
+
 <table class="table">
 <thead>
     <tr>
@@ -13,7 +21,7 @@
   </thead>
 <tbody>
 
-@for(booking of reservas; track booking){
+@for(booking of reservas | filterReserva: filtro; track booking){
     <tr>
       <td>
         <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada-->

@@ -4,17 +4,19 @@ import { Booking } from '../../../interfaces/booking';
 import { FormatDatePipe } from '../../../pipes/format-date.pipe';
 import { DivisaPipe } from '../../../pipes/divisa.pipe';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
+import { FilterReservaPipe } from '../../../pipes/filter-reserva.pipe';
 
 @Component({
   selector: 'app-admin-reservas',
   standalone: true,
-  imports: [FormatDatePipe, DivisaPipe],
+  imports: [FormatDatePipe, DivisaPipe, FormsModule, FilterReservaPipe],
   templateUrl: './reservasAdmin.component.html',
   styleUrl: './reservasAdmin.component.css'
 })
 export class ReservasAdminComponent {
   reservas: Booking[] = [];
-
+  filtro: string = ""
   constructor(private reservaService: ReservaService) {
     reservaService.getAll().subscribe({
       next: (response) => {

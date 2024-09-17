@@ -6,7 +6,7 @@ import { Vehicle } from "./vehicle";
 
 export interface Booking {
     _id: string
-    user: User
+    user: string
     centro: Centro
     services: Servicio[]
     dateIn: string

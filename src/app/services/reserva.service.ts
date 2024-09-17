@@ -50,6 +50,6 @@ console.log("centro recibido", centroId);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
-    return this.http.delete(`${this.url}/${this.authService.user?.id}/${bookingId}`,{headers})
+    return this.http.delete(`${this.url}/${this.authService.user?._id}/${bookingId}`,{headers})
   }
 }
