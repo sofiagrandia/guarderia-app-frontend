@@ -11,6 +11,8 @@ export class AuthService {
   //para los cookies
   user: User|null = null
   id: string|string=''
+  token: string | null = null;
+
   //es hasta users porque es la parte común para login y sign up
   url: string = "http://localhost:3002/api/users"
 
@@ -20,6 +22,10 @@ export class AuthService {
     if(cookieService.check('user')){
       this.user = JSON.parse(cookieService.get('user')) 
     }
+    if (this.cookieService.check('token')) {
+      this.token = this.cookieService.get('token');
+    }
+    console.log("user en auth", this.user)
   }
 
   signup(name: string, email: string, pwd: string, pets?: Mascota[]){
@@ -46,8 +52,8 @@ export class AuthService {
 
   saveUser(user: User){
     this.user = user
-    this.id = user.id
-  console.log("Save user", user.id)
+    this.id = user._id
+  console.log("Save user", user._id)
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
 

@@ -4,7 +4,7 @@
   <li class="col-md-6 my-1">
     <div class="card bg-dark text-white no-border" data-bs-toggle="modal"
     [attr.data-bs-target]="'#modal' + servicio._id">
-      <img [src]="servicio.image" height="500" class="card-img hover-overlay" alt="..." />
+      <img [src]="servicio.image" class="card-img hover-overlay img-resize" alt="..." />
       <div class="card-img-overlay ">
         <h5 class="card-title dark-text lora-regular">{{ servicio.titulo }}</h5>
         <p class="card-text poppins-light">A partir de {{ servicio.precio | divisa }}</p>

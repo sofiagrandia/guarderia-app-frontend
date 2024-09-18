@@ -33,7 +33,7 @@ export class LoginComponent {
         //LoginResponse es una interfaz
         const loginResponse: LoginResponse = response as LoginResponse
         //esto es el JSON que te da el backend
-        const user: User = { token: loginResponse.token, id: loginResponse.id}
+        const user: User = { token: loginResponse.token, _id: loginResponse.id}
         //guardar en las cookies
         this.authService.saveUser(user)
         this.router.navigateByUrl("/")

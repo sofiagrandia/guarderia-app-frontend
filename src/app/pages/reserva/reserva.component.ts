@@ -30,6 +30,7 @@ import { MascotaService } from '../../services/mascota.service';
   styleUrl: './reserva.component.css',
 })
 export class ReservaComponent {
+  public PROMO_CODE_10='PET10';
   centro: Centro | null = null;
   servicio: Servicio | null = null;
   form!: FormGroup;
@@ -42,6 +43,11 @@ export class ReservaComponent {
   selectedMascotas: Mascota[] = [];
   numMascotas: number = 0;
   userId: string | string = '';
+  codigoPromocional: string | string = '';
+  //Esto normalmente estaría en BBDD, se recuperarían los códigos con servicio y se compararían, es solo para ver el fucnionamiento de validación de promos
+  promoCodesList: string[] = [this.PROMO_CODE_10];
+  dateError: boolean | boolean=false;
+  
 
   constructor(
     private reservaService: ReservaService,
@@ -63,6 +69,10 @@ export class ReservaComponent {
     this.loadUser();
     if (cookieService.check('booking-form-data')) {
       data = JSON.parse(cookieService.get('booking-form-data'));
+    }
+    if (this.cookieService.check('user')) {
+      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
     }
 
     this.form = builder.group({
@@ -103,33 +113,67 @@ export class ReservaComponent {
     const fechaOutStr = this.form.value.fechaOut;
     if (!fechaInStr || !fechaOutStr) {
       console.error('Fecha Entrada or Fecha Salida is empty');
+      this.dateError=true;
       return 0;
     }
 
     const fechaini = new Date(fechaInStr);
     const fechafin = new Date(fechaOutStr);
 
-    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime())) {
+    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || fechafin<fechaini) {
       console.error('Invalid date(s) provided');
+      this.dateError=true;
       return 0;
     }
-
+    if(fechafin.getTime()==fechaini.getTime()){
+      return 1;
+    }
     const millisDif = fechafin.getTime() - fechaini.getTime();
     const dias = millisDif / 1000 / 60 / 60 / 24;
+    this.dateError=false;
+    
     return dias < 0 ? 0 : dias;
   }
+
+  public get promoCode(): number{
+    const promoCode = this.form.value.codigoPromocional;
+    this.codigoPromocional = this.form.value.codigoPromocional;
+    if(promoCode==this.PROMO_CODE_10){
+      console.log("this calc", this.codigoPromocional)
+      return 0.9;
+    }else{
+      return 1;
+    }
+  }
+
+   
+
+  
 
   loadUser() {
     if (!this.authService.user && this.cookieService.check('user')) {
       this.authService.user = JSON.parse(this.cookieService.get('user'));
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
+    }
+    if (this.cookieService.check('user')) {
+      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      this.authService.user = JSON.parse(this.cookieService.get('user'));
+      if(JSON.parse(this.cookieService.get('user')).id){
+        this.userId = JSON.parse(this.cookieService.get('user')).id;
+      }else{
+        this.userId = JSON.parse(this.cookieService.get('user'))._id;
+      }
+      
+    }else {
+      console.error('User is not logged in');
     }
     
-    if (this.authService.user) {
+    /*if (this.authService.user) {
       this.userId = this.authService.id;
       console.error('this.USerId en load', this.authService.id);
     } else {
       console.error('User is not logged in');
-    }
+    }*/
     
   }
 
@@ -173,6 +217,7 @@ export class ReservaComponent {
     console.log('UserId en reserva', this.userId);
 
     if (!this.userId) {
+      this.authService.deleteUser();
       console.error('User is not logged in or user ID is not available');
       return;
     }
@@ -233,6 +278,9 @@ export class ReservaComponent {
   enviar() {
     console.log('Centro enviado', this.centro?._id);
     console.log('servicios enviado', this.selectedServices);
+    const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
+  
+  const headers = { 'Authorization': `Bearer ${token}` };
 
     this.reservaService
       .saveReserva(
@@ -240,7 +288,7 @@ export class ReservaComponent {
         this.form.value.fechaIn,
         this.form.value.fechaOut,
         (this.numDias * this.centro!.precioBase + this.sumaServicios) *
-          this.selectedMascotas.length,
+          this.selectedMascotas.length * this.promoCode,
         0,
         this.selectedServices
       )

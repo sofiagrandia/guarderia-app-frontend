@@ -1,27 +1,31 @@
-<h2 class="poppins-regular subtitle-color">Mis reservas</h2>
-@if(bookings.length === 0){
-<div class="alert alert-warning">
-  <i class="fa fa-circle-info"></i>
-  No tienes reservas todavía
+<h2 class="poppins-semibold subtitle-color">Reservas</h2>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">
+    <i class="fa fa-filter"></i>
+  </span>
+  <input [(ngModel)]="filtro" type="text" class="form-control" placeholder="Filtrar">
 </div>
-} @else {
+
 <table class="table">
-  <thead>
+<thead>
     <tr>
       <th scope="col"></th>
       <th scope="col">Fecha In</th>
       <th scope="col">Fecha out</th>
       <th scope="col">Precio total</th>
       <th scope="col">Descuento %</th>
-      <th scope="col">Centro</th>
+      <th scope="col">ID Centro</th>
+      <th scope="col">ID Usuario</th>
     </tr>
   </thead>
-  <tbody>
-    @for(booking of bookings; track booking){
+<tbody>
+
+@for(booking of reservas | filterReserva: filtro; track booking){
     <tr>
       <td>
         <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada-->
-        <button [disabled]="!(booking.dateIn| canCancel)" (click)="eliminar(booking._id)" class="btn btn-danger btn-sm me-1">
+        <button (click)="eliminar(booking._id)" class="btn btn-danger btn-sm me-1">
           <i class="fa fa-trash"></i>
         </button>
       </td>
@@ -30,13 +34,13 @@
       <td>{{ booking.dateOut |formatDate }}</td>
       <td>{{ booking.price | divisa }}</td>
       <td>{{ booking.discount }}</td>
-      <td>{{ booking.centro.direccion }}</td>
+      <td>{{ booking.centro }}</td>
+      <td>{{ booking.user}}</td>
      
      
       
      
     </tr>
     }
-  </tbody>
+</tbody>
 </table>
-}

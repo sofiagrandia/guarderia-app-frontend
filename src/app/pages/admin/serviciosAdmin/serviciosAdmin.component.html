@@ -1,0 +1,43 @@
+<h2 class="poppins-semibold subtitle-color">Servicios</h2>
+<a (click)="onClick('add-servicio')" target="_self" class="btn btn-info poppins-light"> <i class="fa-solid fa-plus"></i> Añadir servicio</a>
+<ul class="row list-unstyled shadow-none">
+  @for(servicio of servicios ; track servicio){
+  <li class="col-md-6 my-1">
+    <div class="card">
+      <img [src]="servicio.image" class="card-img-top img-resize" alt="servicio image" />
+      <div class="card-body">
+        <h5 class="card-title poppins-light">{{ servicio.titulo }}</h5>
+        <h6 class="card-title poppins-thin-italic"> ID: {{ servicio._id }}</h6>
+        <p class="card-text poppins-light">{{ servicio.description }}</p>
+        <p class="card-footer poppins-light">Precio: {{ servicio.precio | divisa}}</p>
+        <a (click)="deleteServicio(servicio._id)" class="btn btn-danger"> <i class="fa fa-trash"></i> Borrar</a>
+      </div>
+    </div>
+  </li>
+  }
+</ul>
+
+<div id="add-servicio">
+  <h2 class="poppins-semibold title-color">Agregar un servicio nuevo</h2>
+  <form [formGroup]="form" (ngSubmit)="addServicio()" >
+    <div class="mb-3">
+      <label for="servicioName" class="col-form-label poppins-light">Nombre de servicio:</label>
+      <input type="text" class="form-control" id="servicioName" formControlName="servicioName">
+    </div>
+    <div class="mb-3">
+      <label for="servicioDesc" class="col-form-label poppins-light">Descripción del servicio:</label>
+      <input type="textarea" class="form-control" id="servicioDesc" formControlName="servicioDesc">
+    </div>
+    <div class="mb-3">
+      <label for="servicioPrice" class="col-form-label poppins-light">Precio del servicio ($):</label>
+      <input type="text" class="form-control" id="servicioPrice" formControlName="servicioPrice">
+    </div>
+    <div class="mb-3">
+      <label for="servicioImg" class="col-form-label poppins-light">Ruta imagen:</label>
+      <input type="text" class="form-control" id="servicioImg" formControlName="servicioImg">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" >Agregar</button>
+    </div>
+  </form>
+</div>
