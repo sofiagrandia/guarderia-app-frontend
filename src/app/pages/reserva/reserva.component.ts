@@ -21,11 +21,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { Mascota } from '../../interfaces/mascota';
 import { UserService } from '../../services/user.service';
 import { MascotaService } from '../../services/mascota.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reserva',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, DivisaPipe],
+  imports: [ReactiveFormsModule, RouterModule, DivisaPipe, CommonModule],
   templateUrl: './reserva.component.html',
   styleUrl: './reserva.component.css',
 })
@@ -68,6 +69,7 @@ export class ReservaComponent {
       promoCode: null,
     };
     this.loadUser();
+    
     if (cookieService.check('booking-form-data')) {
       data = JSON.parse(cookieService.get('booking-form-data'));
     }
@@ -85,7 +87,13 @@ export class ReservaComponent {
     route.paramMap.subscribe((params) => {
       this.parametro = params.get('id');
     });
-
+    this.validateDates();
+    this.form.controls['fechaIn'].valueChanges.subscribe(() => {
+      this.validateDates();
+    });
+    this.form.controls['fechaOut'].valueChanges.subscribe(() => {
+      this.validateDates();
+    });
     if (this.parametro !== null) {
       console.log('centro: ', centroService.getById(this.parametro));
       centroService.getById(this.parametro).subscribe({
@@ -109,35 +117,51 @@ export class ReservaComponent {
     }
   }
 
+
+  ngAfterContentChecked() {
+    // Trigger change detection after view is fully initialized
+    
+    this.validateDates();
+    this.cdr.detectChanges();
+  }
+
   public get numDias(): number {
-    const fechaInStr = this.form.value.fechaIn;
-    const fechaOutStr = this.form.value.fechaOut;
-    if (!fechaInStr || !fechaOutStr) {
-      console.error('Fecha Entrada or Fecha Salida is empty');
+    let fechaInStr = this.form.value.fechaIn;
+    let fechaOutStr = this.form.value.fechaOut;
+    /*if (!fechaInStr || !fechaOutStr) {
       this.dateError=true;
       return 0;
-    }
+    }*/
 
-    const fechaini = new Date(fechaInStr);
-    const fechafin = new Date(fechaOutStr);
+    let fechaini = new Date(fechaInStr);
+    let fechafin = new Date(fechaOutStr);
 
-    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || fechafin<fechaini) {
+    /*let correctDates = fechafin<fechaini;
+    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || correctDates) {
       console.error('Invalid date(s) provided');
       this.dateError=true;
       return 0;
-    }
-    if(fechafin.getTime()==fechaini.getTime()){
+    }*/
+    if(fechafin.getDate()==fechaini.getDate()){
       return 1;
     }
-    const millisDif = fechafin.getTime() - fechaini.getTime();
-    const dias = millisDif / 1000 / 60 / 60 / 24;
+    let millisDif = fechafin.getTime() - fechaini.getTime();
+    let dias = millisDif / 1000 / 60 / 60 / 24;
     this.dateError=false;
-
-    setTimeout(() => {
-      this.cdr.detectChanges();
-    });
     
     return dias < 0 ? 0 : dias;
+  }
+
+  public validateDates() {
+    const fechaInStr = this.form.value.fechaIn;
+    const fechaOutStr = this.form.value.fechaOut;
+    let fechaini = new Date(fechaInStr);
+    let fechafin = new Date(fechaOutStr);
+    let incorrectDates = fechafin<fechaini;
+  
+    if (!fechaInStr || !fechaOutStr || new Date(fechaInStr) > new Date(fechaOutStr) ||isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || incorrectDates) {
+      this.dateError = true;
+    }
   }
 
   public get promoCode(): number{
@@ -283,17 +307,11 @@ export class ReservaComponent {
   enviar() {
     console.log('Centro enviado', this.centro?._id);
     console.log('servicios enviado', this.selectedServices);
+    console.log("Usuario: ", this.userId);
     const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
   
   const headers = { 'Authorization': `Bearer ${token}` };
-  if (!token) {
-    Swal.fire({
-      title: 'Error',
-      text: 'No estás autenticado. Por favor, inicia sesión.',
-      icon: 'error',
-    });
-    return;
-  }
+  
     this.reservaService
       .saveReserva(
         this.centro!._id,
