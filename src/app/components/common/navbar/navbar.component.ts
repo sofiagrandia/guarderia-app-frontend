@@ -30,6 +30,7 @@ export class NavbarComponent {
     });
     this.loadUser();
     this.getRole();
+   
     
   }
 
@@ -62,6 +63,7 @@ export class NavbarComponent {
       next: (response) => {
         console.log(response);
         this.user = response as User;
+        console.log(this.user);
         if(this.user.role!=null){
           this.userRole = this.user.role;
         }
