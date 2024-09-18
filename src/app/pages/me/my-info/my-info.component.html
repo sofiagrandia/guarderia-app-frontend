@@ -1,38 +1,199 @@
-<p>my-info works!</p>
-<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Añadir mascota</button>
+<h2 class="poppins-semibold subtitle-color">Mi Perfil</h2>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="card h-100 my-1">
+  
+  <div class="card-body info-display">
+    <div class="avatar-container">
+      <div class="image-container" [ngClass]="{'box-shadow-avatar': !!file}"  [ngStyle]="{backgroundImage: 'url(' + user.image + ')'}"></div>
+      <label for="avatar-input-file">
+        <div class="icon-wrapper">
+          <mat-icon class="icon" fontIcon="edit" data-bs-toggle="modal"
+          data-bs-target="#imageModal"></mat-icon>
+        </div>
+      </label>
+    </div>
+    <div>
+    <h5 class="card-title lora-regular subtitle-color">{{ user.name }}</h5>
+    <p class="card-text poppins-light">E-mail: {{ user.email }}</p>
+    <button
+      type="button"
+      class="btn btn-outline-info"
+      data-bs-toggle="modal"
+      data-bs-target="#perfilModal"
+    >
+      Cambiar contraseña
+    </button>
+  </div>
+  </div>
+
+  <div class="card-footer">
+    @if(hasMascotas){
+
+    <p class="text-muted poppins-regular">Mis mascotas:</p>
+    <button
+      type="button"
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      data-bs-whatever="@mdo"
+    >
+      Añadir mascota
+    </button>
+    <ul class="row list-unstyled">
+      @for(mascota of mascotasMap[user._id] ; track mascota){
+      <li class="col-md-6 my-1">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title lora-regular subtitle-color">
+              {{ mascota.name }}
+            </h5>
+            <p class="card-text poppins-light">Tipo: {{ mascota.type }}</p>
+            <p class="card-text poppins-light">Raza: {{ mascota.raza }}</p>
+            <p class="card-text poppins-light">
+              Fecha de nacimiento:
+              {{ mascota.fechaNacimiento | formatDatefromDate }}
+            </p>
+          </div>
+        </div>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
+
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Agregar mascota</h5>
-       
       </div>
       <div class="modal-body">
-        <form [formGroup]="form" (ngSubmit)="addPet()" >
+        <form [formGroup]="form" (ngSubmit)="addPet()">
           <div class="mb-3">
-            <label for="petName" class="col-form-label">Nombre de mascota:</label>
-            <input type="text" class="form-control" id="petName" formControlName="petName">
+            <label for="petName" class="col-form-label"
+              >Nombre de mascota:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="petName"
+              formControlName="petName"
+            />
           </div>
           <div class="mb-3">
             <label for="petType" class="col-form-label">Tipo de animal:</label>
-            <input type="text" class="form-control" id="petType" formControlName="petType">
+            <input
+              type="text"
+              class="form-control"
+              id="petType"
+              formControlName="petType"
+            />
           </div>
           <div class="mb-3">
             <label for="petBreed" class="col-form-label">Raza:</label>
-            <input type="text" class="form-control" id="petBreed" formControlName="petBreed">
+            <input
+              type="text"
+              class="form-control"
+              id="petBreed"
+              formControlName="petBreed"
+            />
           </div>
           <div class="mb-3">
-            <label for="petDob" class="col-form-label">Fecha de nacimiento:</label>
-            <input type="date" class="form-control" id="petDob" formControlName="petDob">
+            <label for="petDob" class="col-form-label"
+              >Fecha de nacimiento:</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="petDob"
+              formControlName="petDob"
+            />
           </div>
           <div class="modal-footer">
-            <button class="btn btn-info" data-bs-dismiss="modal">Agregar</button>
+            <button class="btn btn-info" data-bs-dismiss="modal">
+              Agregar
+            </button>
           </div>
         </form>
       </div>
-     
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="perfilModal"
+  tabindex="-1"
+  aria-labelledby="perfilModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cambiar contraseña</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formPwd" (ngSubmit)="updatePwd()">
+          <div class="mb-3">
+            <label for="pwd" class="col-form-label">Nueva Contraseña:</label>
+            <input
+            type="text"
+              class="form-control"
+              id="pwd"
+              formControlName="pwd"
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-info" data-bs-dismiss="modal">
+              Cambiar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  aria-labelledby="imageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Dirección de imagen</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formImage" (ngSubmit)="onFileChange()">
+          <div class="mb-3">
+            <input
+            type="text"
+              class="form-control"
+              id="image"
+              formControlName="image"
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-info" data-bs-dismiss="modal">
+              Cambiar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

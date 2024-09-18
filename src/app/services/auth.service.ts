@@ -29,7 +29,7 @@ export class AuthService {
     console.log("user en auth", this.user)
   }
 
-  signup(name: string, email: string, pwd: string, pets?: Mascota[]){
+  signup(name: string, email: string, pwd: string, pets?: Mascota[], image?: string){
     return this.http.post(
       //Estas URIs y atributos están que en el backend
       `${this.url}/register`,
@@ -37,7 +37,8 @@ export class AuthService {
         name: name,
         email: email,
         password: pwd,
-        mascotas: pets
+        mascotas: pets,
+        image: image
       }
     )
   }

@@ -24,4 +24,13 @@ export class UserService {
     });
     return this.http.delete(`${this.url}/${userId}`,{headers})
   }
+
+
+  uploadAvatar(formData: FormData) {
+    const url = `${this.url}/users/upload-avatar`;  // Backend endpoint for uploading the avatar
+
+    // Headers are not needed for FormData as it sets them automatically
+    return this.http.post(url, formData);
+  }
+
 }
