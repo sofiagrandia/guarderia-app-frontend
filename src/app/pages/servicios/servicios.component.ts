@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Servicio } from '../../interfaces/servicio';
 import { ServicioService } from '../../services/servicio.service';
 import { DivisaPipe } from '../../pipes/divisa.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-servicios',
   standalone: true,
-  imports: [DivisaPipe],
+  imports: [DivisaPipe, RouterModule],
   templateUrl: './servicios.component.html',
   styleUrl: './servicios.component.css',
 })

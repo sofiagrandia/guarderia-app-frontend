@@ -11,7 +11,7 @@
                     
                     @if(centro.plazasDisponibles > 0){
                         <!--[routerLink]="'/rent/'+vehicle._id" -->
-                      <a  class="btn btn-outline-primary">Ir a este centro!</a>
+                      <a [routerLink]="'/reserva/'+centro._id"  class="btn btn-outline-primary">Ir a este centro!</a>
                     }
                     @else {
                       <span class="sin-stock">Sin sitio</span>

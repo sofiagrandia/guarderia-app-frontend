@@ -1,14 +1,16 @@
 
 import { Centro } from "./centro";
+import { Servicio } from "./servicio";
 import { User } from "./user";
 import { Vehicle } from "./vehicle";
 
 export interface Booking {
     _id: string
-    user: User
+    user: string
     centro: Centro
-    date: string
+    services: Servicio[]
+    dateIn: string
+    dateOut: string
     price: number
-    extras: boolean
     discount: number
 }

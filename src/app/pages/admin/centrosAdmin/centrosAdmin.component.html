@@ -1,0 +1,111 @@
+<h2 class="poppins-semibold subtitle-color">Centros</h2>
+<a
+  (click)="onClick('add-centro')"
+  target="_self"
+  class="btn btn-info poppins-light"
+>
+  <i class="fa-solid fa-plus"></i> Añadir centro</a
+>
+<ul class="row list-unstyled">
+  @for(centro of centros ; track centro){
+  <li class="col-md-7 col-sm-12 col-lg-4 my-3">
+    <div class="card h-100">
+      <img [src]="centro.image" height="160" class="card-img-top img-resize" alt="center image" />
+      <div class="card-body">
+        <h5 class="card-title">{{ centro.name }}</h5>
+        <p class="card-text">{{ centro.direccion }}</p>
+        <p class="card-text">{{ centro.description }}</p>
+        <p class="card-text">
+          Plazas disponibles: {{ centro.plazasDisponibles }}
+        </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Telefono {{ centro.telefono }}</small>
+      </div>
+      <div class="card-footer">
+        <p class="text-muted">Servicios:</p>
+        @for(c of centro.servicios; track c){
+        <p>ID: {{ c }}</p>
+        }
+        <a (click)="deleteCentro(centro._id)" class="btn btn-danger"> <i class="fa fa-trash"></i> Borrar</a>
+      </div>
+    
+    </div>
+  </li>
+  }
+</ul>
+
+<div id="add-centro">
+  <h2 class="poppins-semibold title-color">Agregar un centro nuevo</h2>
+  <form [formGroup]="form" (ngSubmit)="addCentro()">
+    <div class="mb-3">
+      <label for="centroDir" class="col-form-label poppins-light"
+        >Dirección:</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="centroDir"
+        formControlName="centroDir"
+      />
+    </div>
+    <div class="mb-3">
+        <label for="centroImg" class="col-form-label poppins-light"
+          >Imagen:</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="centroImg"
+          formControlName="centroImg"
+        />
+      </div>
+    <div class="mb-3">
+      <label for="centroTelf" class="col-form-label poppins-light"
+        >Telefono:</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="centroTelf"
+        formControlName="centroTelf"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="centroPrecio" class="col-form-label poppins-light"
+        >Precio base ($):</label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="centroPrecio"
+        formControlName="centroPrecio"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="centroPlazas" class="col-form-label poppins-light"
+        >Plazas disponibles:</label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="centroPlazas"
+        formControlName="centroPlazas"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="centroServicios" class="col-form-label poppins-light"
+        >Servicios (IDs, separados por ;):</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="centroServicios"
+        formControlName="centroServicios"
+      />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" >Agregar</button>
+    </div>
+  </form>
+</div>

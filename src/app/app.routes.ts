@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
-import { RentComponent } from './pages/rent/rent.component';
 import { isNotLoggedInGuard } from './guards/is-not-logged-in.guard';
 import { MeComponent } from './pages/me/me.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
@@ -11,6 +10,14 @@ import { MyInfoComponent } from './pages/me/my-info/my-info.component';
 
 import { CentrosComponent } from './pages/centros/centros.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { ReservaComponent } from './pages/reserva/reserva.component';
+import { MascotasComponent } from './pages/mascotas/mascotas.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { UsersAdminComponent } from './pages/admin/usersAdmin/usersAdmin.component';
+import { ReservasAdminComponent } from './pages/admin/reservasAdmin/reservasAdmin.component';
+import { ServiciosAdminComponent} from './pages/admin/serviciosAdmin/serviciosAdmin.component';
+import { SafeKeyedRead } from '@angular/compiler';
+import { CentrosAdminComponent } from './pages/admin/centrosAdmin/centrosAdmin.component';
 
 
 export const routes: Routes = [
@@ -32,13 +39,17 @@ export const routes: Routes = [
         canActivate: [isNotLoggedInGuard]
     },
     {
+        path: "mascotas",
+        component: MascotasComponent
+    },
+    {
         path: "signup",
         component: SignupComponent,
         canActivate: [isNotLoggedInGuard]
     },
     {
-        path: "rent/:id",
-        component: RentComponent
+        path: "reserva/:id",
+        component: ReservaComponent
     },
     {
         path: "me",
@@ -52,6 +63,29 @@ export const routes: Routes = [
             {
                 path: "my-info",
                 component: MyInfoComponent
+            }
+        ]
+    },
+    {
+        path: "admin",
+        component: AdminComponent,
+        canActivate: [isLoggedInGuard],
+        children:[
+            {
+                path: "users",
+                component: UsersAdminComponent
+            },
+            {
+                path: "centros",
+                component: CentrosAdminComponent
+            },
+            {
+                path: "servicios",
+                component: ServiciosAdminComponent
+            },
+            {
+                path: "reservas",
+                component: ReservasAdminComponent
             }
         ]
     }

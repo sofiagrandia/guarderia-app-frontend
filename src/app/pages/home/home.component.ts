@@ -16,16 +16,9 @@ import { FilterVehiclesPipe } from '../../pipes/filter-vehicles.pipe';
 })
 export class HomeComponent {
   //Hay que crear una interfaz para poder traer Vehiculos
-  vehicles: Vehicle[] =[]
-  filtro: string = ""
+  
 
-  constructor(private vehicleService: VehicleService){
-    //asíncrono
-    vehicleService.getAll().subscribe({
-      next: (response)=>{
-        this.vehicles = response as Vehicle[]
-      },
-      error: ()=>{}
-    })
+  constructor(){
+    
   }
 }
