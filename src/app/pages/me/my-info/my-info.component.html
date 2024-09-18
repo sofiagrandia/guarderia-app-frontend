@@ -42,7 +42,7 @@
       Añadir mascota
     </button>
     <ul class="row list-unstyled">
-      @for(mascota of mascotas ; track mascota){
+      @for(mascota of mascotasMap[user._id] ; track mascota){
       <li class="col-md-6 my-1">
         <div class="card h-100">
           <div class="card-body">

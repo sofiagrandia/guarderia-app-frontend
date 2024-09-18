@@ -49,6 +49,7 @@ export class MyInfoComponent {
     fechaNacimiento: new Date(), // or you could set it to null or some placeholder date if needed
   };
   fechaString: string | string = '';
+  mascotasMap: { [userId: string]: Mascota[] } = {};
 
   constructor(
     private builder: FormBuilder,
@@ -70,7 +71,7 @@ export class MyInfoComponent {
       image: new FormControl(null), 
     });
     
-   
+    
     this.loadUser();
     this.loadMascotas();
    
@@ -90,7 +91,8 @@ export class MyInfoComponent {
             this.mascotaService.getById(m).subscribe({
               next: (response) => {
                 const mascota = response as Mascota;
-
+                
+                
                 this.mascotas.push(mascota); 
                 this.user = user;// Add each valid servicio object to the array
               },
@@ -127,7 +129,12 @@ export class MyInfoComponent {
     // Fetch the user by ID and get their mascotas
     this.userService.getById(this.userId).subscribe({
       next: (response: any) => {
-        const user = response as User; // Assuming response matches the User interface
+        const user = response as User; 
+
+        if (!this.mascotasMap[this.user._id]) {
+          this.mascotasMap[this.user._id] = [];
+        }
+        
         console.log('User Mascotas:', user.mascotas);
         console.log('mascota id', user.mascotas);
         if (user.mascotas && user.mascotas.length > 0) {
@@ -136,6 +143,7 @@ export class MyInfoComponent {
             this.mascotaService.getById(m).subscribe({
               next: (response) => {
                 const mascota = response as Mascota;
+                this.mascotasMap[user._id].push(mascota); 
                 console.log("Response", response)
                 this.mascotas.push(mascota); // Add each valid servicio object to the array
               },
