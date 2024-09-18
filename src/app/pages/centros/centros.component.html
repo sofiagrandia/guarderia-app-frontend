@@ -1,17 +1,28 @@
-<h1>Nuestros centros</h1>
+<h1 class="poppins-semibold title-color">Nuestros Centros</h1>
+<hr>
   <ul class="row list-unstyled">
       @for(centro of centros ; track centro){
           <li class="col-md-6 col-sm-12 col-lg-3 my-1">
               <div class="card h-100" >
-                  <img [src]="centro.image" height="160"  class="card-img-top" alt="...">
+                  <img [src]="centro.image" height="160"  class="card-img-top img-resize"  alt="centro image">
                   <div class="card-body">
-                    <h5 class="card-title">{{centro.name}}</h5>
-                    <p class="card-text">{{centro.description}}</p>
-                    <p class="card-text">Plazas dispobles{{centro.plazasDisponibles}} </p>
+                    <h5 class="card-text poppins-light">Dirección: {{centro.direccion}} </h5>
+                    <hr>
+                    <h6 class="card-text lora-regular subtitle-color">Servicios disponibles:</h6>
+                    
+                    @if(serviciosMap[centro._id]) {
+                      <ul>
+                      @for(s of serviciosMap[centro._id]; track s){
+                        <li class="card-text poppins-regular">{{ s.titulo }}</li>
+                      }
+                    </ul>
+                    } @else {
+                      <p class="card-text poppins-regular">No services available</p>
+                    }
                     
                     @if(centro.plazasDisponibles > 0){
                         <!--[routerLink]="'/rent/'+vehicle._id" -->
-                      <a [routerLink]="'/reserva/'+centro._id"  class="btn btn-outline-primary">Ir a este centro!</a>
+                      <a [routerLink]="'/reserva/'+centro._id"  class="btn btn-outline-info">Reserva en este centro</a>
                     }
                     @else {
                       <span class="sin-stock">Sin sitio</span>
