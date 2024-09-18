@@ -48,7 +48,7 @@ export class MyInfoComponent {
     this.loadUser();
   }
 loadUser(){
-   this.userId = this.authService.user!.id;
+   this.userId = this.authService.user!._id;
 }
   addPet() {
     console.log("UserId", this.userId)
