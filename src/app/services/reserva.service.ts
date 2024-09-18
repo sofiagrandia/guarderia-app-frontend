@@ -17,6 +17,12 @@ export class ReservaService {
     });
     return this.http.get(`${this.url}/user/${userId}`, { headers });
   }
+  getAll() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.user?.token}`,
+    });
+    return this.http.get(this.url, { headers });
+  }
 
   saveReserva(
     centroId: string,
@@ -44,6 +50,6 @@ console.log("centro recibido", centroId);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
-    return this.http.delete(`${this.url}/${this.authService.user?.id}/${bookingId}`,{headers})
+    return this.http.delete(`${this.url}/${this.authService.user?._id}/${bookingId}`,{headers})
   }
 }
