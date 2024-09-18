@@ -37,6 +37,8 @@ export class LoginComponent {
         //guardar en las cookies
         this.authService.saveUser(user)
         this.router.navigateByUrl("/")
+        
+        
       },
       error: ()=>{
         
