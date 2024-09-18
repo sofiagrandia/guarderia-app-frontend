@@ -55,6 +55,17 @@ main {
 .text-center {
   text-align: center;
 }
+.text-large{
+    font-size: 100px;
+}
+
+.text-regular{
+    font-size:medium;
+}
+
+.text-small{
+    font-size:small;
+}
 .dark-text {
   color: rgb(27, 148, 169);
   background-color: white;
@@ -70,7 +81,6 @@ main {
 .lora-regular {
   font-family: "Lora", serif;
   font-optical-sizing: auto;
-  font-size: large;
   font-weight: 400;
   font-style: normal;
 }

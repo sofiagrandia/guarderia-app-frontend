@@ -1,7 +1,7 @@
 import { User } from './../../interfaces/user';
 import { CentroService } from './../../services/centro.service';
 import { ReservaService } from './../../services/reserva.service';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Centro } from '../../interfaces/centro';
 import {
@@ -59,7 +59,8 @@ export class ReservaComponent {
     private centroService: CentroService,
     private servicioService: ServicioService,
     private userService: UserService,
-    private mascotaService: MascotaService
+    private mascotaService: MascotaService,
+    private cdr: ChangeDetectorRef
   ) {
     let data: BookingFormData = {
       startDate: null,
@@ -131,6 +132,10 @@ export class ReservaComponent {
     const millisDif = fechafin.getTime() - fechaini.getTime();
     const dias = millisDif / 1000 / 60 / 60 / 24;
     this.dateError=false;
+
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    });
     
     return dias < 0 ? 0 : dias;
   }
@@ -281,7 +286,14 @@ export class ReservaComponent {
     const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
   
   const headers = { 'Authorization': `Bearer ${token}` };
-
+  if (!token) {
+    Swal.fire({
+      title: 'Error',
+      text: 'No estás autenticado. Por favor, inicia sesión.',
+      icon: 'error',
+    });
+    return;
+  }
     this.reservaService
       .saveReserva(
         this.centro!._id,

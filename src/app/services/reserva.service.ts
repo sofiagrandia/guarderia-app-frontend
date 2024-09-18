@@ -36,6 +36,7 @@ export class ReservaService {
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
 console.log("centro recibido", centroId);
+
     return this.http.post(this.url, {
       centro: centroId,
       dateIn: dateIn,

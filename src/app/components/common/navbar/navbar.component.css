@@ -47,6 +47,9 @@
    .text-center{
        text-align: center;
    }
+   .text-navbar{
+    font-size: 15px;
+   }
    .dark-text{
        color: rgb(27, 148, 169);
        background-color: white;

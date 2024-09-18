@@ -10,10 +10,9 @@
   justify-content: center;
   gap: 10px;
 }
-.navbar-custom-bg {
-  background-color: #6ebdca;
+.text-subtitle{
+  font-size: 40px;
 }
-
 .body-color{
   color: #06373f;
 }

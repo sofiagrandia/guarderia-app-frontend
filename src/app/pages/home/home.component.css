@@ -207,7 +207,13 @@ main {
   height: 500px;
   width: 100%;
 }
+.text-large{
+  font-size: 60px;
+}
 
+.text-title-body{
+  font-size: 20px;
+}
 @media only screen and (max-width: 600px) {
   .card-image {
     display: none;
