@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../interfaces/user';
 import { Mascota } from '../interfaces/mascota';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
   url: string = "http://localhost:3002/api/users"
 
 
-  constructor(private http : HttpClient, private cookieService: CookieService) {
+  constructor(private http : HttpClient, private cookieService: CookieService, private router: Router) {
     // rescatar usuario de las cookies, porque user es volátil y las cookies persistentes
     if(cookieService.check('user')){
       this.user = JSON.parse(cookieService.get('user')) 
@@ -56,6 +57,7 @@ export class AuthService {
   console.log("Save user", user._id)
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
+    
 
   }
 
@@ -71,7 +73,10 @@ export class AuthService {
   }
 
   deleteUser(){
-    this.user = null
-    this.cookieService.delete("user")
+    this.user = null;
+    this.router.navigate(['/login']);
+    sessionStorage.removeItem('pageReloaded');
+    this.cookieService.delete("user");
+    
   }
 }
