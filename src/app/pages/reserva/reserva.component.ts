@@ -318,7 +318,7 @@ export class ReservaComponent {
     console.log('Centro enviado', this.centro?._id);
     console.log('servicios enviado', this.selectedServices);
     console.log('Usuario: ', this.userId);
-    const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
+    const token = this.cookieService.get('token'); 
     if (this.form.invalid) {
       console.log('Form is invalid. Please fix the errors.');
       return;
@@ -355,12 +355,14 @@ export class ReservaComponent {
         error: (err) => {
           Swal.fire({
             title: 'Oops',
-            text: `Ha ocurrido un error con tu reserva ${
+            text: `Ha ocurrido un error con tu reserva: ${
               err.error.message || 'Unknown error'
             }`,
             icon: 'error',
-            timer: 2000,
-            showConfirmButton: false,
+            timer: 6000,
+            didClose: () => {
+              this.router.navigateByUrl('/centros');
+            },
           });
         },
       });

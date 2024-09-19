@@ -1,6 +1,6 @@
 import { User } from './../../../interfaces/user';
 import { Component } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import {
   FormBuilder,
   FormControl,
@@ -18,13 +18,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-my-info',
   standalone: true,
-  imports: [ReactiveFormsModule, FormatDatefromDatePipe, MatIconModule, CommonModule
+  imports: [
+    ReactiveFormsModule,
+    FormatDatefromDatePipe,
+    MatIconModule,
+    CommonModule,
   ],
   templateUrl: './my-info.component.html',
   styleUrl: './my-info.component.css',
 })
 export class MyInfoComponent {
-
   passwordType: string = 'password';
   form!: FormGroup;
   formPwd!: FormGroup;
@@ -37,8 +40,7 @@ export class MyInfoComponent {
     token: '',
     _id: '',
     mascotas: [],
-    role:''
-
+    role: '',
   };
   userId: string | string = '';
   mascota: Mascota = {
@@ -65,16 +67,14 @@ export class MyInfoComponent {
       petDob: new FormControl(null), // New control for pet's date of birth
     });
     this.formPwd = builder.group({
-      pwd: new FormControl(null), 
+      pwd: new FormControl(null),
     });
     this.formImage = builder.group({
-      image: new FormControl(null), 
+      image: new FormControl(null),
     });
-    
-    
+
     this.loadUser();
     this.loadMascotas();
-   
   }
   loadUser() {
     this.userId = this.authService.user!._id;
@@ -84,17 +84,16 @@ export class MyInfoComponent {
         const user = response as User; // Assuming response matches the User interface
         console.log('User Mascotas:', user);
         console.log('mascota id', user.mascotas);
-        this.user= user;
+        this.user = user;
         if (user.mascotas && user.mascotas.length > 0) {
           for (const m of user.mascotas) {
             console.log('mascota id', m);
             this.mascotaService.getById(m).subscribe({
               next: (response) => {
                 const mascota = response as Mascota;
-                
-                
-                this.mascotas.push(mascota); 
-                this.user = user;// Add each valid servicio object to the array
+
+                this.mascotas.push(mascota);
+                this.user = user; // Add each valid servicio object to the array
               },
               error: (err) =>
                 console.error(`Error fetching mascota with ID: ${m}`, err),
@@ -129,12 +128,12 @@ export class MyInfoComponent {
     // Fetch the user by ID and get their mascotas
     this.userService.getById(this.userId).subscribe({
       next: (response: any) => {
-        const user = response as User; 
+        const user = response as User;
 
         if (!this.mascotasMap[this.user._id]) {
           this.mascotasMap[this.user._id] = [];
         }
-        
+
         console.log('User Mascotas:', user.mascotas);
         console.log('mascota id', user.mascotas);
         if (user.mascotas && user.mascotas.length > 0) {
@@ -143,8 +142,8 @@ export class MyInfoComponent {
             this.mascotaService.getById(m).subscribe({
               next: (response) => {
                 const mascota = response as Mascota;
-                this.mascotasMap[user._id].push(mascota); 
-                console.log("Response", response)
+                this.mascotasMap[user._id].push(mascota);
+                console.log('Response', response);
                 this.mascotas.push(mascota); // Add each valid servicio object to the array
               },
               error: (err) =>
@@ -189,6 +188,7 @@ export class MyInfoComponent {
       .subscribe({
         next: (response: any) => {
           const mascotaId = response.mascota._id;
+          const newMascota = response as Mascota;
           console.log('Response', response);
 
           if (!this.userId) {
@@ -207,11 +207,20 @@ export class MyInfoComponent {
                 this.authService.updateUser(this.user, this.userId).subscribe({
                   next: (response: any) => {
                     console.log('respuesta auth', response);
+                    // Update the user's pet list
+                    this.user.mascotas?.push(mascotaId);
+
+                    // Directly append the new pet to the mascotas array without reloading all
+                    this.mascotas.push(newMascota);
+                    this.mascotasMap[this.user._id].push(newMascota);
+                    this.mascotasMap[this.user._id] = [];
+                    this.loadMascotas();
                   },
                 });
               }
             },
           });
+          this.router.navigateByUrl('/me/my-info');
         },
         error: (err) => {
           console.error('Error during pet insertion:', err);
@@ -223,69 +232,60 @@ export class MyInfoComponent {
   updatePwd() {
     console.log('UserId', this.userId);
     console.log('En updatePwd()');
-   
+
     console.log(this.form.value.petName);
-   
 
-          if (!this.userId) {
-            console.error('User is not logged in or user ID is not available');
-            return;
-          }
+    if (!this.userId) {
+      console.error('User is not logged in or user ID is not available');
+      return;
+    }
 
-          this.userService.getById(this.userId).subscribe({
+    this.userService.getById(this.userId).subscribe({
+      next: (response: any) => {
+        console.log('Meto nuevo usuario', response);
+        this.user = response as User;
+        console.log('Metido', this.user);
+        console.log('User', this.user);
+        this.user.password = this.formPwd.value.pwd;
+        console.log('Nueva pwd', this.user.password);
+        if (this.user != null) {
+          this.authService.updateUser(this.user, this.userId).subscribe({
             next: (response: any) => {
-              console.log('Meto nuevo usuario', response);
-              this.user = response as User;
-              console.log('Metido', this.user);
-              console.log('User', this.user);
-              this.user.password = this.formPwd.value.pwd;
-              console.log("Nueva pwd",this.user.password)
-              if (this.user != null) {
-                this.authService.updateUser(this.user, this.userId).subscribe({
-                  next: (response: any) => {
-                    console.log('respuesta auth', response);
-                    this.authService.deleteUser();
-                  },
-                });
-              }
+              console.log('respuesta auth', response);
+              this.authService.deleteUser();
             },
           });
-
-          
-       
+        }
+      },
+    });
   }
-  resetInput(){
-    const input = document.getElementById('avatar-input-file') as HTMLInputElement;
-    if(input){
-      input.value = "";
+  resetInput() {
+    const input = document.getElementById(
+      'avatar-input-file'
+    ) as HTMLInputElement;
+    if (input) {
+      input.value = '';
     }
- }
+  }
   onFileChange() {
-    
-   
-    
-      
-      console.log('User con file', this.user);
-      this.userService.getById(this.userId).subscribe({
-        next: (response: any) => {
-          console.log('Meto nuevo usuario', response);
-          this.user = response as User;
-          this.user.image = this.formImage.value.image;
-          console.log('Metido', this.user);
-          console.log('User', this.user);
-          console.log("Nueva pwd",this.user.password)
-          if (this.user != null) {
-            this.authService.updateUser(this.user, this.userId).subscribe({
-              next: (response: any) => {
-                console.log('respuesta auth', response);
-                
-              },
-            });
-          }
-        },
-      });
-      //this.resetInput();   
-    
-  
- }
+    console.log('User con file', this.user);
+    this.userService.getById(this.userId).subscribe({
+      next: (response: any) => {
+        console.log('Meto nuevo usuario', response);
+        this.user = response as User;
+        this.user.image = this.formImage.value.image;
+        console.log('Metido', this.user);
+        console.log('User', this.user);
+        console.log('Nueva pwd', this.user.password);
+        if (this.user != null) {
+          this.authService.updateUser(this.user, this.userId).subscribe({
+            next: (response: any) => {
+              console.log('respuesta auth', response);
+            },
+          });
+        }
+      },
+    });
+    //this.resetInput();
+  }
 }
