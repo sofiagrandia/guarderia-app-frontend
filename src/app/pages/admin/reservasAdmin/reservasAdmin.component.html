@@ -1,22 +1,22 @@
-<h2 class="poppins-semibold subtitle-color">Reservas</h2>
+<h2 class="poppins-semibold subtitle-color text-subtitle">Reservas</h2>
 
 <div class="input-group mb-3">
   <span class="input-group-text">
     <i class="fa fa-filter"></i>
   </span>
-  <input [(ngModel)]="filtro" type="text" class="form-control" placeholder="Filtrar">
+  <input [(ngModel)]="filtro" type="text" class="form-control poppins-regular" placeholder="Filtrar">
 </div>
 
 <table class="table">
-<thead>
+<thead >
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Fecha In</th>
-      <th scope="col">Fecha out</th>
-      <th scope="col">Precio total</th>
-      <th scope="col">Descuento %</th>
-      <th scope="col">ID Centro</th>
-      <th scope="col">ID Usuario</th>
+      <th class="poppins-light text-title-body" scope="col"></th>
+      <th class="poppins-light text-title-body" scope="col">Fecha In</th>
+      <th class="poppins-light text-title-body" scope="col">Fecha out</th>
+      <th class="poppins-light text-title-body" scope="col">Precio total</th>
+      <th class="poppins-light text-title-body" scope="col">Descuento %</th>
+      <th class="poppins-light text-title-body" scope="col">ID Centro</th>
+      <th class="poppins-light text-title-body" scope="col">ID Usuario</th>
     </tr>
   </thead>
 <tbody>
@@ -29,13 +29,13 @@
           <i class="fa fa-trash"></i>
         </button>
       </td>
-      <td>{{ booking.dateIn | formatDate }}</td>
+      <td class="poppins-thin text-body">{{ booking.dateIn | formatDate }}</td>
       
-      <td>{{ booking.dateOut |formatDate }}</td>
-      <td>{{ booking.price | divisa }}</td>
-      <td>{{ booking.discount }}</td>
-      <td>{{ booking.centro }}</td>
-      <td>{{ booking.user}}</td>
+      <td class="poppins-thin text-body">{{ booking.dateOut |formatDate }}</td>
+      <td class="poppins-thin text-body">{{ booking.price | divisa }}</td>
+      <td class="poppins-thin text-body">{{ booking.discount }}</td>
+      <td class="poppins-thin text-body">{{ booking.centro }}</td>
+      <td class="poppins-thin text-body">{{ booking.user}}</td>
      
      
       

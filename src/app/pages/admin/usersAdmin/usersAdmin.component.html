@@ -1,10 +1,10 @@
-<h2 class="poppins-semibold subtitle-color">Usuarios</h2>
+<h2 class="poppins-semibold subtitle-color text-subtitle">Usuarios</h2>
 
 <div class="input-group mb-3">
     <span class="input-group-text">
       <i class="fa fa-filter"></i>
     </span>
-    <input [(ngModel)]="filtro" type="text" class="form-control" placeholder="Filtrar">
+    <input [(ngModel)]="filtro" type="text" class="form-control poppins-regular" placeholder="Filtrar">
   </div>
 
 <ul class="row list-unstyled">
@@ -12,19 +12,19 @@
   <li class="col-md-7 col-sm-12 col-lg-4 my-3">
     <div class="card h-100">
       <div class="card-body">
-        <h5 class="card-title">{{ user.name }}</h5>
-        <p class="card-text">{{ user.email }}</p>
+        <h5 class="card-title poppins-semibold text-title-body">{{ user.name }}</h5>
+        <p class="card-text poppins-regular">{{ user.email }}</p>
       </div>
 
       <div class="card-footer">
-        <small class="text-muted">ID usuario: {{ user._id }}</small>
+        <small class="text-muted poppins-light">ID usuario: {{ user._id }}</small>
       </div>
       <div class="card-footer">
-        <p class="text-muted">Mascotas:</p>
+        <p class="text-muted poppins-light-italic">Mascotas:</p>
         @for(m of user.mascotas; track m){
-        <p>Mascota ID: {{ m }}</p>
+        <p class="poppins-regular"> Mascota ID: {{ m }}</p>
         }
-        <a (click)="eliminar(user._id)" class="btn btn-danger"> <i class="fa fa-trash"></i> Borrar</a>
+        <a (click)="eliminar(user._id)" class="btn btn-danger poppins-regular"> <i class="fa fa-trash"></i> Borrar</a>
       </div>
     
     </div>
