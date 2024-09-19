@@ -70,8 +70,8 @@ export class CentrosAdminComponent {
         this.form.value.centroDir,
         this.form.value.centroImg,
         this.form.value.centroTelf,
-        this.form.value.centroPrecio,
         this.form.value.centroPlazas,
+        this.form.value.centroPrecio,
         serviciosAsArray
       )
       .subscribe({

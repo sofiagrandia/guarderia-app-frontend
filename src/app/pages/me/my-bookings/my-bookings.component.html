@@ -1,42 +1,44 @@
-<h2 class="poppins-regular subtitle-color">Mis reservas</h2>
+<h2 class="poppins-semibold text-subtitle subtitle-color">Mis reservas</h2>
 @if(bookings.length === 0){
 <div class="alert alert-warning">
   <i class="fa fa-circle-info"></i>
   No tienes reservas todavía
 </div>
 } @else {
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Fecha In</th>
-      <th scope="col">Fecha out</th>
-      <th scope="col">Precio total</th>
-      <th scope="col">Descuento %</th>
-      <th scope="col">Centro</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for(booking of bookings; track booking){
-    <tr>
-      <td>
-        <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada-->
-        <button [disabled]="!(booking.dateIn| canCancel)" (click)="eliminar(booking._id)" class="btn btn-danger btn-sm me-1">
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-      <td>{{ booking.dateIn | formatDate }}</td>
-      
-      <td>{{ booking.dateOut |formatDate }}</td>
-      <td>{{ booking.price | divisa }}</td>
-      <td>{{ booking.discount }}</td>
-      <td>{{ booking.centro.direccion }}</td>
-     
-     
-      
-     
-    </tr>
-    }
-  </tbody>
-</table>
+<div style="overflow-x: auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="poppins-light text-title-body" scope="col"></th>
+        <th class="poppins-light text-title-body" scope="col">Fecha In</th>
+        <th class="poppins-light text-title-body" scope="col">Fecha out</th>
+        <th class="poppins-light text-title-body" scope="col">Precio total</th>
+        <th class="poppins-light text-title-body" scope="col">Descuento %</th>
+        <th class="poppins-light text-title-body" scope="col">Centro</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(booking of bookings; track booking){
+      <tr>
+        <td>
+          <!--tienes que pasar parametro porque si no eliminaria todas las reservas. Deshabilitas el eliminar/editar si la fecha de inicio ya es pasada-->
+          <button
+            [disabled]="!(booking.dateIn | canCancel)"
+            (click)="eliminar(booking._id)"
+            class="btn btn-danger btn-sm me-1"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+        <td class="poppins-thin text-body">{{ booking.dateIn | formatDate }}</td>
+
+        <td class="poppins-thin text-body">{{ booking.dateOut | formatDate }}</td>
+        <td class="poppins-thin text-body">{{ booking.price | divisa }}</td>
+        <td class="poppins-thin text-body">{{ booking.discount }}</td>
+        <td class="poppins-thin text-body">{{ booking.centro.direccion }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
 }

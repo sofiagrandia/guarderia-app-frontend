@@ -13,7 +13,9 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  form!: FormGroup
+  form!: FormGroup;
+  passwordType: string = 'password';
+  loginError: boolean =false;
 
   constructor(private builder: FormBuilder,
     private authService: AuthService,
@@ -41,6 +43,7 @@ export class LoginComponent {
         
       },
       error: ()=>{
+        this.loginError= true;
         
       }
     })

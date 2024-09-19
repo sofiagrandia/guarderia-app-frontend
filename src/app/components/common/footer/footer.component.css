@@ -9,7 +9,9 @@
 }
 .footer-custom-bg{
     background-color: rgb(15, 180, 210);}
-
+    footer {
+      margin-top: auto;
+  }
 .nav-link:active {
     color: #6ebdca;
     background-color: white;

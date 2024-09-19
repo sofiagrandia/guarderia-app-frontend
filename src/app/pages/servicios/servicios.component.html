@@ -1,4 +1,4 @@
-<h1 class="poppins-semibold title-color ">Nuestros Servicios</h1>
+<h1 class="poppins-semibold title-color text-large">Nuestros Servicios</h1>
 <hr>
 <ul class="row list-unstyled shadow-none">
   @for(servicio of servicios ; track servicio){
@@ -7,7 +7,7 @@
     [attr.data-bs-target]="'#modal' + servicio._id">
       <img [src]="servicio.image" class="card-img hover-overlay img-resize" alt="..." />
       <div class="card-img-overlay ">
-        <h5 class="card-title dark-text lora-regular">{{ servicio.titulo }}</h5>
+        <h5 class="card-title dark-text lora-regular text-title-body">{{ servicio.titulo }}</h5>
         <p class="card-text poppins-light">A partir de {{ servicio.precio | divisa }}</p>
       </div>
     </div>

@@ -10,8 +10,8 @@
   justify-content: center;
   gap: 10px;
 }
-.navbar-custom-bg {
-  background-color: #6ebdca;
+.text-large{
+  font-size: 60px;
 }
 
 .body-color{

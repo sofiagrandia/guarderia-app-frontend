@@ -2,6 +2,7 @@ import { Servicio } from './../interfaces/servicio';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Centro } from '../interfaces/centro';
 
 @Injectable({
   providedIn: 'root',
@@ -51,5 +52,12 @@ export class CentroService {
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
     return this.http.delete(`${this.url}/${centroId}`,{headers})
+  }
+
+  updateCentro(centroId: string, updatedCentro: Centro) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.user?.token}`,
+    })
+    return this.http.patch(`${this.url}/${centroId}`, updatedCentro, {headers});
   }
 }

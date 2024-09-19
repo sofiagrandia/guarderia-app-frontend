@@ -19,7 +19,7 @@ export class MascotaService {
       Authorization: `Bearer ${this.authService.user?.token}`,
     });
 
-  
+  console.log("token mascota",this.authService.user?.token)
 
     return this.http.post(this.url, {
       name: name,

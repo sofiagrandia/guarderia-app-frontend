@@ -1,4 +1,4 @@
-<h2 class="poppins-semibold subtitle-color">Servicios</h2>
+<h2 class="poppins-semibold subtitle-color text-subtitle">Servicios</h2>
 <a (click)="onClick('add-servicio')" target="_self" class="btn btn-info poppins-light"> <i class="fa-solid fa-plus"></i> Añadir servicio</a>
 <ul class="row list-unstyled shadow-none">
   @for(servicio of servicios ; track servicio){
@@ -6,8 +6,8 @@
     <div class="card">
       <img [src]="servicio.image" class="card-img-top img-resize" alt="servicio image" />
       <div class="card-body">
-        <h5 class="card-title poppins-light">{{ servicio.titulo }}</h5>
-        <h6 class="card-title poppins-thin-italic"> ID: {{ servicio._id }}</h6>
+        <h5 class="card-title poppins-light text-title-body">{{ servicio.titulo }}</h5>
+        <h6 class="card-title poppins-thin-italic text-title-body"> ID: {{ servicio._id }}</h6>
         <p class="card-text poppins-light">{{ servicio.description }}</p>
         <p class="card-footer poppins-light">Precio: {{ servicio.precio | divisa}}</p>
         <a (click)="deleteServicio(servicio._id)" class="btn btn-danger"> <i class="fa fa-trash"></i> Borrar</a>
@@ -18,7 +18,7 @@
 </ul>
 
 <div id="add-servicio">
-  <h2 class="poppins-semibold title-color">Agregar un servicio nuevo</h2>
+  <h2 class="poppins-semibold title-color text-subtitle">Agregar un servicio nuevo</h2>
   <form [formGroup]="form" (ngSubmit)="addServicio()" >
     <div class="mb-3">
       <label for="servicioName" class="col-form-label poppins-light">Nombre de servicio:</label>

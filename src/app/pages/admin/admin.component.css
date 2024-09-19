@@ -13,7 +13,9 @@
 .navbar-custom-bg {
   background-color: #6ebdca;
 }
-
+.text-large{
+  font-size: 60px;
+}
 .body-color{
   color: #06373f;
 }

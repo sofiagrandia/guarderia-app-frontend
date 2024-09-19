@@ -5,7 +5,12 @@
   border: 0;
   box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
 }
-
+.text-large{
+  font-size: 60px;
+}
+.text-title-body{
+  font-size: 20px;
+}
 .img-resize {
   height: 500px;
   width: 100%;

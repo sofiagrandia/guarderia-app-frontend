@@ -2,9 +2,11 @@
   @if(centro){
   <div class="col-md-5">
     <div>
-      <img [src]="centro.image" width="350" alt="" />
-
-      <p>{{ centro.direccion }} {{ centro.plazasDisponibles }}</p>
+      <p class="poppins-regular text-address text-center" >{{ centro.direccion }}</p>
+      <hr>
+      <div>
+        <img [src]="centro.image" alt="centro image" class="img-resize" />
+      </div>
     </div>
   </div>
   <div class="col-md-1 col-lg-1 d-none d-md-block">
@@ -17,19 +19,19 @@
     <form [formGroup]="form" action="" (ngSubmit)="enviar()">
       <div class="mb-3">
         <label class="form-label" for="">Fecha Entrada</label>
-        <input formControlName="fechaIn" class="form-control" type="date" />
+        <input formControlName="fechaIn" class="form-control" type="date" (change)="validateDates()"/>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="">Fecha Salida</label>
-        <input formControlName="fechaOut" class="form-control" type="date" />
+        <input formControlName="fechaOut" class="form-control" type="date" (change)="validateDates()"/>
       </div>
-      @if(dateError===true){
-      <div class="alert alert-info">
-        <i class="fa fa-circle-exclamation me-3"></i>
-        Asegúrese que la fecha está completa y es correcta.
+      <div *ngIf="dateError">
+        <div class="alert alert-info">
+          <i class="fa fa-circle-exclamation me-3"></i>
+          Asegúrese que la fecha está completa y es correcta.
+        </div>
       </div>
-      }
       <div>
         <p>
           ¿Tienes un código promocional?

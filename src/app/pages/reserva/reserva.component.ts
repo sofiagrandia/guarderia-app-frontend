@@ -1,7 +1,7 @@
 import { User } from './../../interfaces/user';
 import { CentroService } from './../../services/centro.service';
 import { ReservaService } from './../../services/reserva.service';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Centro } from '../../interfaces/centro';
 import {
@@ -21,16 +21,17 @@ import { CookieService } from 'ngx-cookie-service';
 import { Mascota } from '../../interfaces/mascota';
 import { UserService } from '../../services/user.service';
 import { MascotaService } from '../../services/mascota.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reserva',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, DivisaPipe],
+  imports: [ReactiveFormsModule, RouterModule, DivisaPipe, CommonModule],
   templateUrl: './reserva.component.html',
   styleUrl: './reserva.component.css',
 })
 export class ReservaComponent {
-  public PROMO_CODE_10='PET10';
+  public PROMO_CODE_10 = 'PET10';
   centro: Centro | null = null;
   servicio: Servicio | null = null;
   form!: FormGroup;
@@ -46,8 +47,7 @@ export class ReservaComponent {
   codigoPromocional: string | string = '';
   //Esto normalmente estaría en BBDD, se recuperarían los códigos con servicio y se compararían, es solo para ver el fucnionamiento de validación de promos
   promoCodesList: string[] = [this.PROMO_CODE_10];
-  dateError: boolean | boolean=false;
-  
+  dateError: boolean | boolean = false;
 
   constructor(
     private reservaService: ReservaService,
@@ -59,7 +59,8 @@ export class ReservaComponent {
     private centroService: CentroService,
     private servicioService: ServicioService,
     private userService: UserService,
-    private mascotaService: MascotaService
+    private mascotaService: MascotaService,
+    private cdr: ChangeDetectorRef
   ) {
     let data: BookingFormData = {
       startDate: null,
@@ -67,18 +68,31 @@ export class ReservaComponent {
       promoCode: null,
     };
     this.loadUser();
+
     if (cookieService.check('booking-form-data')) {
       data = JSON.parse(cookieService.get('booking-form-data'));
     }
     if (this.cookieService.check('user')) {
-      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      console.log(
+        'cookie service user',
+        JSON.parse(this.cookieService.get('user'))
+      );
       this.userId = JSON.parse(this.cookieService.get('user')).id;
     }
 
-    this.form = builder.group({
-      fechaIn: new FormControl(data.startDate, [Validators.required]),
-      fechaOut: new FormControl(data.endDate, [Validators.required]),
-      codigoPromocional: new FormControl([]),
+    this.form = builder.group(
+      {
+        fechaIn: new FormControl(data.startDate, [Validators.required]),
+        fechaOut: new FormControl(data.endDate, [Validators.required]),
+        codigoPromocional: new FormControl([]),
+      },
+      {
+        validators: this.dateValidator,
+      }
+    );
+    this.form.statusChanges.subscribe(() => {
+      this.dateError = this.form.hasError('invalidDates');
+      // No need for manual change detection here, as Angular handles this internally
     });
 
     route.paramMap.subscribe((params) => {
@@ -98,7 +112,6 @@ export class ReservaComponent {
             const servicioIds = this.centro.servicios; // Ensure _id exists
             console.log('Service IDs:', servicioIds); // Log the IDs to ensure they're valid
             this.loadServicios(servicioIds);
-            
           } else {
             console.error('No valid servicios found in the centro object.');
           }
@@ -109,46 +122,79 @@ export class ReservaComponent {
   }
 
   public get numDias(): number {
-    const fechaInStr = this.form.value.fechaIn;
-    const fechaOutStr = this.form.value.fechaOut;
-    if (!fechaInStr || !fechaOutStr) {
-      console.error('Fecha Entrada or Fecha Salida is empty');
+    let fechaInStr = this.form.value.fechaIn;
+    let fechaOutStr = this.form.value.fechaOut;
+    /*if (!fechaInStr || !fechaOutStr) {
       this.dateError=true;
       return 0;
-    }
+    }*/
 
-    const fechaini = new Date(fechaInStr);
-    const fechafin = new Date(fechaOutStr);
+    let fechaini = new Date(fechaInStr);
+    let fechafin = new Date(fechaOutStr);
 
-    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || fechafin<fechaini) {
+    /*let correctDates = fechafin<fechaini;
+    if (isNaN(fechaini.getTime()) || isNaN(fechafin.getTime()) || correctDates) {
       console.error('Invalid date(s) provided');
       this.dateError=true;
       return 0;
-    }
-    if(fechafin.getTime()==fechaini.getTime()){
+    }*/
+    if (fechafin.getDate() == fechaini.getDate()) {
       return 1;
     }
-    const millisDif = fechafin.getTime() - fechaini.getTime();
-    const dias = millisDif / 1000 / 60 / 60 / 24;
-    this.dateError=false;
-    
+    let millisDif = fechafin.getTime() - fechaini.getTime();
+    let dias = millisDif / 1000 / 60 / 60 / 24;
+    this.dateError = false;
+
     return dias < 0 ? 0 : dias;
   }
 
-  public get promoCode(): number{
-    const promoCode = this.form.value.codigoPromocional;
-    this.codigoPromocional = this.form.value.codigoPromocional;
-    if(promoCode==this.PROMO_CODE_10){
-      console.log("this calc", this.codigoPromocional)
-      return 0.9;
-    }else{
-      return 1;
+  public validateDates() {
+    const fechaInStr = this.form.value.fechaIn;
+    const fechaOutStr = this.form.value.fechaOut;
+    let fechaini = new Date(fechaInStr);
+    let fechafin = new Date(fechaOutStr);
+    let incorrectDates = fechafin < fechaini;
+
+    if (
+      !fechaInStr ||
+      !fechaOutStr ||
+      new Date(fechaInStr) > new Date(fechaOutStr) ||
+      isNaN(fechaini.getTime()) ||
+      isNaN(fechafin.getTime()) ||
+      incorrectDates
+    ) {
+      this.dateError = true;
     }
   }
 
-   
+  dateValidator(group: FormGroup): { [key: string]: any } | null {
+    const fechaIn = group.controls['fechaIn'].value;
+    const fechaOut = group.controls['fechaOut'].value;
 
-  
+    if (!fechaIn || !fechaOut) {
+      return null; // Don't validate if either date is missing
+    }
+
+    const fechaini = new Date(fechaIn);
+    const fechafin = new Date(fechaOut);
+
+    if (fechafin < fechaini) {
+      return { invalidDates: true }; // Return validation error if dates are invalid
+    }
+
+    return null; // Return null if dates are valid
+  }
+
+  public get promoCode(): number {
+    const promoCode = this.form.value.codigoPromocional;
+    this.codigoPromocional = this.form.value.codigoPromocional;
+    if (promoCode == this.PROMO_CODE_10) {
+      console.log('this calc', this.codigoPromocional);
+      return 0.9;
+    } else {
+      return 1;
+    }
+  }
 
   loadUser() {
     if (!this.authService.user && this.cookieService.check('user')) {
@@ -156,25 +202,19 @@ export class ReservaComponent {
       this.userId = JSON.parse(this.cookieService.get('user')).id;
     }
     if (this.cookieService.check('user')) {
-      console.log("cookie service user", JSON.parse(this.cookieService.get('user')));
+      console.log(
+        'cookie service user',
+        JSON.parse(this.cookieService.get('user'))
+      );
       this.authService.user = JSON.parse(this.cookieService.get('user'));
-      if(JSON.parse(this.cookieService.get('user')).id){
+      if (JSON.parse(this.cookieService.get('user')).id) {
         this.userId = JSON.parse(this.cookieService.get('user')).id;
-      }else{
+      } else {
         this.userId = JSON.parse(this.cookieService.get('user'))._id;
       }
-      
-    }else {
-      console.error('User is not logged in');
-    }
-    
-    /*if (this.authService.user) {
-      this.userId = this.authService.id;
-      console.error('this.USerId en load', this.authService.id);
     } else {
       console.error('User is not logged in');
-    }*/
-    
+    }
   }
 
   onServiceToggle(servicio: Servicio, event: Event) {
@@ -209,7 +249,6 @@ export class ReservaComponent {
     }
   }
 
-  // Function to load mascotas of the logged-in user
   loadMascotas() {
     this.loadUser();
     // Assuming `authService.getUser()` returns the logged-in user's ID
@@ -278,9 +317,15 @@ export class ReservaComponent {
   enviar() {
     console.log('Centro enviado', this.centro?._id);
     console.log('servicios enviado', this.selectedServices);
-    const token = this.cookieService.get('token'); // Assuming token is stored in cookies after login
-  
-  const headers = { 'Authorization': `Bearer ${token}` };
+    console.log('Usuario: ', this.userId);
+    const token = this.cookieService.get('token'); 
+    if (this.form.invalid) {
+      console.log('Form is invalid. Please fix the errors.');
+      return;
+    }
+
+    console.log('Form is valid. Proceed with submission.');
+    const headers = { Authorization: `Bearer ${token}` };
 
     this.reservaService
       .saveReserva(
@@ -288,7 +333,8 @@ export class ReservaComponent {
         this.form.value.fechaIn,
         this.form.value.fechaOut,
         (this.numDias * this.centro!.precioBase + this.sumaServicios) *
-          this.selectedMascotas.length * this.promoCode,
+          this.selectedMascotas.length *
+          this.promoCode,
         0,
         this.selectedServices
       )
@@ -309,12 +355,14 @@ export class ReservaComponent {
         error: (err) => {
           Swal.fire({
             title: 'Oops',
-            text: `Ha ocurrido un error con tu reserva ${
+            text: `Ha ocurrido un error con tu reserva: ${
               err.error.message || 'Unknown error'
             }`,
             icon: 'error',
-            timer: 2000,
-            showConfirmButton: false,
+            timer: 6000,
+            didClose: () => {
+              this.router.navigateByUrl('/centros');
+            },
           });
         },
       });

@@ -11,15 +11,15 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a [class.active]="isActive('/')" class="nav-link poppins-light"  aria-current="page" routerLink="/">Home</a>
+            <a [class.active]="isActive('/')" class="nav-link poppins-light text-navbar"  aria-current="page" routerLink="/">Home</a>
           </li>
 
           <li class="nav-item">
-            <a [class.active]="isActive('/centros')" class="nav-link poppins-light"  routerLink="/centros">Centros</a>
+            <a [class.active]="isActive('/centros')" class="nav-link poppins-light text-navbar"  routerLink="/centros">Centros</a>
           </li>
 
           <li class="nav-item">
-            <a [class.active]="isActive('/servicios')"  class="nav-link poppins-light" routerLink="/servicios">Servicios</a>
+            <a [class.active]="isActive('/servicios')"  class="nav-link poppins-light text-navbar" routerLink="/servicios">Servicios</a>
           </li>
           <!--Para que se pinten los botones de login/signup solo cuando no haya nadie loggeado-->
          
@@ -28,10 +28,10 @@
               <div class="vr separation-nav-links"></div>
               <ul class="navbar-nav ">
                 <li class="nav-item">
-                  <a [class.active]="isActive('/login')"  class="nav-link poppins-light" routerLink="/login">Login</a>
+                  <a [class.active]="isActive('/login')"  class="nav-link poppins-light text-navbar" routerLink="/login">Login</a>
                 </li>
                 <li class="nav-item">
-                  <a [class.active]="isActive('/signup')"  class="nav-link poppins-light" routerLink="/signup">Signup</a>
+                  <a [class.active]="isActive('/signup')"  class="nav-link poppins-light text-navbar" routerLink="/signup">Signup</a>
                 </li>
               </ul>
             
@@ -42,7 +42,7 @@
           @else {
             @if(userRole =='user'){
               <li class="nav-item dropdown">
-                <a [class.active]="isActive('/me')"  class="nav-link dropdown-toggle poppins-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a [class.active]="isActive('/me')"  class="nav-link dropdown-toggle poppins-light text-navbar" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Área privada
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -52,12 +52,12 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <button class="nav-link poppins-light" (click)="authService.deleteUser()" routerLink="/">Logout</button>
+                <button class="nav-link poppins-light text-navbar" (click)="authService.deleteUser()" routerLink="/login">Logout</button>
               </li>
             }
             @else{
               <li class="nav-item dropdown">
-                <a [class.active]="isActive('/admin')"  class="nav-link dropdown-toggle poppins-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a [class.active]="isActive('/admin')"  class="nav-link dropdown-toggle poppins-light text-navbar" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Área privada
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -69,7 +69,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <button class="nav-link poppins-light" (click)="authService.deleteUser()" routerLink="/">Logout</button>
+                <button class="nav-link poppins-light text-navbar" (click)="authService.deleteUser()" routerLink="/login">Logout</button>
               </li>
 
             }

@@ -27,6 +27,7 @@ export class AuthService {
       this.token = this.cookieService.get('token');
     }
     console.log("user en auth", this.user)
+    console.log("token en auth", this.cookieService.get('token'))
   }
 
   signup(name: string, email: string, pwd: string, pets?: Mascota[], image?: string){
@@ -58,6 +59,7 @@ export class AuthService {
   console.log("Save user", user._id)
     //nombre de la cookie, el json de la interfaz
     this.cookieService.set("user", JSON.stringify(user))
+    this.cookieService.set("token", user.token)
     
 
   }
@@ -79,5 +81,17 @@ export class AuthService {
     sessionStorage.removeItem('pageReloaded');
     this.cookieService.delete("user");
     
+  }
+
+  loadUserToken() {
+    console.log("loading token...")
+    if (this.cookieService.check('token')) {
+      if(this.user!=null){
+        console.log("auth service token", this.cookieService.get('token'));
+        this.user.token= this.cookieService.get('token');
+      }
+      
+    
+    }
   }
 }
