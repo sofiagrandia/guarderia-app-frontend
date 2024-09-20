@@ -67,18 +67,7 @@ export class ReservaComponent {
       endDate: null,
       promoCode: null,
     };
-    this.loadUser();
 
-    if (cookieService.check('booking-form-data')) {
-      data = JSON.parse(cookieService.get('booking-form-data'));
-    }
-    if (this.cookieService.check('user')) {
-      console.log(
-        'cookie service user',
-        JSON.parse(this.cookieService.get('user'))
-      );
-      this.userId = JSON.parse(this.cookieService.get('user')).id;
-    }
 
     this.form = builder.group(
       {
@@ -118,6 +107,20 @@ export class ReservaComponent {
         },
         error: () => {},
       });
+    }
+
+    
+
+    if (cookieService.check('booking-form-data')) {
+      data = JSON.parse(cookieService.get('booking-form-data'));
+    }
+    if (this.cookieService.check('user')) {
+      console.log(
+        'cookie service user',
+        JSON.parse(this.cookieService.get('user'))
+      );
+      this.userId = JSON.parse(this.cookieService.get('user')).id;
+      this.loadUser();
     }
   }
 
@@ -258,7 +261,7 @@ export class ReservaComponent {
     if (!this.userId) {
       this.authService.deleteUser();
       console.error('User is not logged in or user ID is not available');
-      return;
+      //return;
     }
 
     // Fetch the user by ID and get their mascotas

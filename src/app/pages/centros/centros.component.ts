@@ -2,8 +2,10 @@ import { Servicio } from './../../interfaces/servicio';
 import { CentroService } from './../../services/centro.service';
 import { Component } from '@angular/core';
 import { Centro } from '../../interfaces/centro';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ServicioService } from '../../services/servicio.service';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-centros',
@@ -20,7 +22,7 @@ export class CentrosComponent {
   serviciosMap: { [centroId: string]: Servicio[] } = {};
   loadedServiceIds: Set<string> = new Set(); 
 
-  constructor(private centroService: CentroService, private servicioService: ServicioService){
+  constructor(private centroService: CentroService, private servicioService: ServicioService,  private router: Router, private authService: AuthService){
     centroService.getAll().subscribe({
       next: (response)=>{
         this.centros = response as Centro[];
@@ -64,6 +66,30 @@ export class CentrosComponent {
         });
       }
     });
+  }
+
+  clickCenter(centroId: String){
+    if(!this.authService.user){
+      console.log("Usuario no encontrado")
+      Swal.fire({
+        title: "No está registrado",
+        text: "Para completar su reserva inicie sesión",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#34d8eb",
+        cancelButtonColor: "#2a1cad",
+        confirmButtonText: "Iniciar sesión",
+        cancelButtonText: "Dejar para más tarde",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigateByUrl('/login');
+        }
+      });
+    }else{
+      this.router.navigateByUrl(`/reserva/${centroId}`);
+    }
+    
+
   }
 
 

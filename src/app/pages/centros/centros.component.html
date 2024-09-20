@@ -7,6 +7,7 @@
                   <img [src]="centro.image" height="160"  class="card-img-top img-resize"  alt="centro image">
                   <div class="card-body">
                     <h5 class="card-text poppins-light text-title-body">Dirección: {{centro.direccion}} </h5>
+                    <p class="card-text poppins-light text-title-body">Precio: {{centro.precioBase}} </p>
                     <hr>
                     <h6 class="card-text lora-regular subtitle-color">Servicios disponibles:</h6>
                     
@@ -20,16 +21,12 @@
                       <p class="card-text poppins-regular">No services available</p>
                     }
                     
-                    @if(centro.plazasDisponibles > 0){
-                        <!--[routerLink]="'/rent/'+vehicle._id" -->
-                      <a [routerLink]="'/reserva/'+centro._id"  class="btn btn-outline-info">Reserva en este centro</a>
-                    }
-                    @else {
-                      <span class="sin-stock">Sin sitio</span>
-                    }
+                    
+                      <a (click)="clickCenter(centro._id)"  class="btn btn-outline-info">Reserva en este centro</a>
+                    
                   </div>
                   <div class="card-footer">
-                      <small class="text-muted">Telefono {{centro.telefono}}</small>
+                      <small class="text-muted">Teléfono {{centro.telefono}}</small>
                   </div>
                 </div>
           </li>
