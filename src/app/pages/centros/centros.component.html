@@ -7,7 +7,7 @@
                   <img [src]="centro.image" height="160"  class="card-img-top img-resize"  alt="centro image">
                   <div class="card-body">
                     <h5 class="card-text poppins-light text-title-body">Dirección: {{centro.direccion}} </h5>
-                    <p class="card-text poppins-light text-title-body">Precio: {{centro.precioBase}} </p>
+                    <p class="card-text poppins-light text-title-body">Precio: {{centro.precioBase | divisa}} </p>
                     <hr>
                     <h6 class="card-text lora-regular subtitle-color">Servicios disponibles:</h6>
                     

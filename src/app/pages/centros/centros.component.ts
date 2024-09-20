@@ -6,11 +6,12 @@ import { Router, RouterModule } from '@angular/router';
 import { ServicioService } from '../../services/servicio.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { DivisaPipe } from '../../pipes/divisa.pipe';
 
 @Component({
   selector: 'app-centros',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, DivisaPipe],
   templateUrl: './centros.component.html',
   styleUrl: './centros.component.css'
 })
