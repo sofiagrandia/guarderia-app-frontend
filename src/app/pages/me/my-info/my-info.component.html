@@ -1,40 +1,48 @@
 <h2 class="poppins-semibold text-subtitle subtitle-color">Mi Perfil</h2>
 
-
-
 <div class="card h-100 my-1">
-  
   <div class="card-body info-display">
     <div class="avatar-container">
-      <div class="image-container" [ngClass]="{'box-shadow-avatar': !!file}"  [ngStyle]="{backgroundImage: 'url(' + user.image + ')'}"></div>
+      <div
+        class="image-container"
+        [ngClass]="{ 'box-shadow-avatar': !!file }"
+        [ngStyle]="{ backgroundImage: 'url(' + user.image + ')' }"
+      ></div>
       <label for="avatar-input-file">
         <div class="icon-wrapper">
-          <mat-icon class="icon" fontIcon="edit" data-bs-toggle="modal"
-          data-bs-target="#imageModal"></mat-icon>
+          <mat-icon
+            class="icon"
+            fontIcon="edit"
+            data-bs-toggle="modal"
+            data-bs-target="#imageModal"
+          ></mat-icon>
         </div>
       </label>
     </div>
-    <div>
-    <h5 class="card-title lora-regular subtitle-color">{{ user.name }}</h5>
-    <p class="card-text poppins-light">E-mail: {{ user.email }}</p>
-    <button
-      type="button"
-      class="btn btn-outline-info"
-      data-bs-toggle="modal"
-      data-bs-target="#perfilModal"
-    >
-      Cambiar contraseña
-    </button>
-  </div>
+    <div class="spacing-total">
+      <div class="white-bg round-border spacing">
+        <h5 class="card-title lora-regular subtitle-color">{{ user.name }}</h5>
+        <p class="card-text poppins-light">E-mail: {{ user.email }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-outline-info white-bg"
+        data-bs-toggle="modal"
+        data-bs-target="#perfilModal"
+      >
+        Cambiar contraseña
+      </button>
+    </div>
   </div>
 
-  <div class="card-footer">
+  <div class="card-footer blue-bg">
     @if(hasMascotas){
 
-    <p class="text-muted poppins-regular">Mis mascotas:</p>
+    <p class="poppins-regular white-font text-body-size">MIS MASCOTAS:</p>
     <button
       type="button"
-      class="btn btn-success"
+      class="btn btn-light blue-font"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
       data-bs-whatever="@mdo"
@@ -48,11 +56,26 @@
           <div class="card-body">
             <h5 class="card-title lora-regular subtitle-color">
               {{ mascota.name }}
+              @if(mascota.type==="Perro"){
+              <i class="fa-solid fa-dog"></i>
+              }@else{ @if(mascota.type==="Gato"){
+              <i class="fa-solid fa-cat"></i>
+              }@else{ @if(mascota.type==="Pez"){
+                <i class="fa-solid fa-fish"></i>
+              }@else{ @if(mascota.type==="Reptil"){
+                <i class="fa-solid fa-frog"></i>
+              }@else{ @if(mascota.type==="Pájaro"){
+                <i class="fa-solid fa-crow"></i>
+              }}}}}
             </h5>
-            <p class="card-text poppins-light">Tipo: {{ mascota.type }}</p>
-            <p class="card-text poppins-light">Raza: {{ mascota.raza }}</p>
             <p class="card-text poppins-light">
-              Fecha de nacimiento:
+              <strong>Tipo:</strong> {{ mascota.type }}
+            </p>
+            <p class="card-text poppins-light">
+              <strong>Raza:</strong> {{ mascota.raza }}
+            </p>
+            <p class="card-text poppins-light">
+              <strong>Fecha de nacimiento:</strong>
               {{ mascota.fechaNacimiento | formatDatefromDate }}
             </p>
           </div>
@@ -64,7 +87,6 @@
   </div>
 </div>
 
-
 <div
   class="modal fade"
   id="exampleModal"
@@ -75,7 +97,9 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar mascota</h5>
+        <h5 class="modal-title text-body-size" id="exampleModalLabel">
+          Agregar mascota
+        </h5>
       </div>
       <div class="modal-body">
         <form [formGroup]="form" (ngSubmit)="addPet()">
@@ -92,12 +116,21 @@
           </div>
           <div class="mb-3">
             <label for="petType" class="col-form-label">Tipo de animal:</label>
-            <input
-              type="text"
-              class="form-control"
+
+            <select
+              class="btn btn-info dropdown-toggle"
               id="petType"
               formControlName="petType"
-            />
+            >
+              <option value="" disabled selected hidden>
+                Select your option
+              </option>
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Pájaro">Pájaro</option>
+              <option value="Pez">Pez</option>
+              <option value="Reptil">Reptil/Anfibio</option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="petBreed" class="col-form-label">Raza:</label>
@@ -120,7 +153,11 @@
             />
           </div>
           <div class="modal-footer">
-            <button class="btn btn-info" data-bs-dismiss="modal" routerLink="/me/my-info">
+            <button
+              class="btn btn-info"
+              data-bs-dismiss="modal"
+              routerLink="/me/my-info"
+            >
               Agregar
             </button>
           </div>
@@ -147,7 +184,7 @@
           <div class="mb-3">
             <label for="pwd" class="col-form-label">Nueva Contraseña:</label>
             <input
-            type="text"
+              type="text"
               class="form-control"
               id="pwd"
               formControlName="pwd"
@@ -174,13 +211,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="imageModalLabel">Dirección de imagen</h5>
+        <h5 class="modal-title text-body-size" id="imageModalLabel">
+          Dirección de imagen
+        </h5>
       </div>
       <div class="modal-body">
         <form [formGroup]="formImage" (ngSubmit)="onFileChange()">
           <div class="mb-3">
             <input
-            type="text"
+              type="text"
               class="form-control"
               id="image"
               formControlName="image"
